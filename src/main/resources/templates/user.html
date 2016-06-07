@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{idensys.title}"></title>
+  <meta charset='utf-8'/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" type="text/css" href="/css/app.css" th:href="@{/css/app.css}"/>
+</head>
+<body>
+<section class="attributes">
+  <ul>
+    <li>Attribute name</li>
+    <li>Value</li>
+  </ul>
+  <ul>
+    <li th:text="${user.nameIDType}"></li>
+    <li th:text="${user.nameID}"></li>
+  </ul>
+  <ul th:each="attr : ${user.attributes}">
+    <li th:text="${attr.name}"></li>
+    <li th:text="${attr.value}"></li>
+  </ul>
+</section>
+</body>
+</html>

@@ -1,0 +1,18 @@
+section.attributes ul {
+  list-style: none;
+}
+
+section.attributes ul:first-child {
+  color: #4db3cf;
+}
+
+section.attributes ul li {
+  display: inline-block;
+  width: 40%;
+}
+
+@media (max-width: 800px) {
+  section.attributes ul li {
+    display: block;
+  }
+}
