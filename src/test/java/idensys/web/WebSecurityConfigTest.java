@@ -36,48 +36,6 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
   private String serviceProviderEntityId;
 
   @Test
-  public void testProxy() throws Exception {
-    String destination = "http://localhost:" + port + "/saml/idp";
-
-    String url = samlRequestUtils.redirectUrl(entityId, destination,
-      acsLocation, Optional.empty(), true);
-
-    //This mimics the AuthRequest from EB SP to the idensys IDP endpoint
-    ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
-    //This is the AuthnRequest from the idensys to the real IdP
-    String saml = decodeSaml(response);
-
-    assertTrue(saml.contains("AssertionConsumerServiceURL=\"http://localhost:8080/saml/SSO\""));
-    assertTrue(saml.contains("Destination=\"https://engine.test2.surfconext.nl/authentication/idp/single-sign-on\""));
-
-    String samlResponse = getIdPSAMLResponse(saml);
-
-    MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-    map.add("SAMLResponse", Base64.getEncoder().encodeToString(samlResponse.getBytes()));
-
-    HttpHeaders httpHeaders = buildCookieHeaders(response);
-
-    // now mimic a response from the real IdP with a valid AuthnResponse and the correct cookie header
-    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map, httpHeaders);
-    response = restTemplate.exchange("http://localhost:" + port + "/saml/SSO", HttpMethod.POST, httpEntity, String.class);
-
-    assertAuthResponse(response);
-
-    // now verify that we hit the cached principal
-    String secondUrl = samlRequestUtils.redirectUrl(entityId, destination, acsLocation, Optional.empty(), false);
-
-    response = restTemplate.exchange(secondUrl, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
-
-    assertAuthResponse(response);
-
-    //we can now call user to introspect the Principal
-    response = restTemplate.exchange("http://localhost:" + port + "/user", HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
-
-    assertUserResponse(response);
-  }
-
-  @Test
   public void testInvalidSignature() throws UnknownHostException, SecurityException, SignatureException, MarshallingException, MessageEncodingException {
     String url = samlRequestUtils.redirectUrl(serviceProviderEntityId, "http://localhost:" + port + "/saml/idp", serviceProviderACSLocation, Optional.empty(), true);
     String mangledUrl = url.replaceFirst("&Signature[^&]+", "&Signature=bogus");
@@ -90,10 +48,10 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
     ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/test", String.class);
 
     //This is the AuthnRequest from the idensys to the real IdP
-    String saml = decodeSaml(response);
+    String saml = decodeSaml(response, false);
 
     assertTrue(saml.contains("AssertionConsumerServiceURL=\"http://localhost:8080/saml/SSO\""));
-    assertTrue(saml.contains("Destination=\"https://engine.test2.surfconext.nl/authentication/idp/single-sign-on\""));
+    assertTrue(saml.contains("Destination=\"https://eid.digidentity-accept.eu/hm/eh19/dv_hm\""));
 
     String samlResponse = getIdPSAMLResponse(saml);
 
@@ -152,7 +110,7 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
     ZonedDateTime date = ZonedDateTime.now();
     String now = date.format(DateTimeFormatter.ISO_INSTANT);
-    String samlResponse = IOUtils.toString(new ClassPathResource("saml/eb.authnResponse.saml.xml").getInputStream());
+    String samlResponse = IOUtils.toString(new ClassPathResource("saml/digidentity.authnResponse.saml.xml").getInputStream());
 
     //Make sure the all the validations pass. We don't sign as this is in dev modus not necessary (and cumbersome)
     samlResponse = samlResponse

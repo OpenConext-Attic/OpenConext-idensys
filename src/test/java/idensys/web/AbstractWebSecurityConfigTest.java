@@ -25,9 +25,9 @@ import static org.junit.Assert.*;
 
 public abstract class AbstractWebSecurityConfigTest extends AbstractIntegrationTest {
 
-  protected String entityId ="https://www.upsu.com/shibboleth";
+  protected String entityId ="https://engine.test2.surfconext.nl/authentication/sp/metadata";
 
-  protected String acsLocation = "https://www.upsu.com/Shibboleth.sso/SAML/Artifact";
+  protected String acsLocation = "https://engine.test2.surfconext.nl/authentication/sp/consume-assertion";
 
   protected String getSAMLResponseForError(ResponseEntity<String> response) {
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -39,31 +39,32 @@ public abstract class AbstractWebSecurityConfigTest extends AbstractIntegrationT
   }
 
   protected void assertAuthResponse(ResponseEntity<String> response) {
-    String html;
-    assertEquals(200, response.getStatusCode().value());
-
-    html = response.getBody();
-
-    assertTrue(html.contains("<input type=\"hidden\" name=\"SAMLResponse\""));
-    assertTrue(html.contains("<body onload=\"document.forms[0].submit()\">"));
-
-    Matcher matcher = Pattern.compile("name=\"SAMLResponse\" value=\"(.*?)\"").matcher(html);
-    assertTrue(matcher.find());
-
-    String samlResponseBase64Encoded = matcher.group(1);
-    String samlResponse = new String(Base64.getDecoder().decode(samlResponseBase64Encoded));
+    String samlResponse = decodeSaml(response, true);
 
     assertTrue(samlResponse.contains("Destination=\""+ acsLocation +"\""));
   }
 
-  protected String decodeSaml(ResponseEntity<String> response) throws URISyntaxException, IOException {
-    String location = response.getHeaders().getLocation().toString();
+  protected String decodeSaml(ResponseEntity<String> response, boolean isResponse) {
+    assertEquals(200, response.getStatusCode().value());
 
-    Map<String, String> queryParameters = queryParameters(location);
-    byte[] decodedBytes = Base64.getDecoder().decode(queryParameters.get("SAMLRequest"));
+    String html = response.getBody();
 
-    return IOUtils.toString(new InflaterInputStream(new ByteArrayInputStream(decodedBytes), new Inflater(true)));
+    String samlType = isResponse ? "SAMLResponse" : "SAMLRequest";
+    Matcher matcher = Pattern.compile("name=\"" + samlType + "\" value=\"(.*?)\"").matcher(html);
+    assertTrue(matcher.find());
+
+    String samlBase64Encoded = matcher.group(1);
+    return new String(Base64.getDecoder().decode(samlBase64Encoded));
   }
+
+//  protected String decodeSaml(ResponseEntity<String> response) throws URISyntaxException, IOException {
+//    String location = response.getHeaders().getLocation().toString();
+//
+//    Map<String, String> queryParameters = queryParameters(location);
+//    byte[] decodedBytes = Base64.getDecoder().decode(queryParameters.get("SAMLRequest"));
+//
+//    return IOUtils.toString(new InflaterInputStream(new ByteArrayInputStream(decodedBytes), new Inflater(true)));
+//  }
 
   protected void assertInvalidResponse(String entity, String acs, String expectedErrorMessage) throws SecurityException, MessageEncodingException, SignatureException, MarshallingException, UnknownHostException {
     String url = samlRequestUtils.redirectUrl(entity, "http://localhost:" + port + "/", acs, Optional.empty(), true);

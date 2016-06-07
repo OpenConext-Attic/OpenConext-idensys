@@ -19,9 +19,9 @@ public class AllowAllWebSecurityConfigTest extends AbstractWebSecurityConfigTest
     String url = samlRequestUtils.redirectUrl("http://bogus", "http://localhost:" + port + "/saml/idp", acsLocation, Optional.empty(), false);
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-    String saml = decodeSaml(response);
+    String saml = decodeSaml(response, false);
 
-    assertTrue(saml.contains("Destination=\"https://engine.test2.surfconext.nl/authentication/idp/single-sign-on\""));
+    assertTrue(saml.contains("Destination=\"https://eid.digidentity-accept.eu/hm/eh19/dv_hm\""));
   }
 
 }
