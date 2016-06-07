@@ -6,7 +6,7 @@
 Idensys is a SAML Proxy acting as a Identity Provider in the OpenConext SAML Federation and as a ServiceProvider for idensys - through
 digidentity.
 
-The Proxy behaviour can be configured in order for the Idensys to be used as a generic IdP-SP SAML proxy with hooks
+The Proxy behaviour can be configured in order for the Proxy to be used as a generic IdP-SP SAML proxy with hooks
 for authnResponse 'enrichment'.
 
 ## [Getting started](#getting-started)
