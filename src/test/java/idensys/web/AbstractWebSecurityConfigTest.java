@@ -57,14 +57,14 @@ public abstract class AbstractWebSecurityConfigTest extends AbstractIntegrationT
     return new String(Base64.getDecoder().decode(samlBase64Encoded));
   }
 
-//  protected String decodeSaml(ResponseEntity<String> response) throws URISyntaxException, IOException {
-//    String location = response.getHeaders().getLocation().toString();
-//
-//    Map<String, String> queryParameters = queryParameters(location);
-//    byte[] decodedBytes = Base64.getDecoder().decode(queryParameters.get("SAMLRequest"));
-//
-//    return IOUtils.toString(new InflaterInputStream(new ByteArrayInputStream(decodedBytes), new Inflater(true)));
-//  }
+  protected String decodeSamlRedirect(ResponseEntity<String> response) throws URISyntaxException, IOException {
+    String location = response.getHeaders().getLocation().toString();
+
+    Map<String, String> queryParameters = queryParameters(location);
+    byte[] decodedBytes = Base64.getDecoder().decode(queryParameters.get("SAMLRequest"));
+
+    return IOUtils.toString(new InflaterInputStream(new ByteArrayInputStream(decodedBytes), new Inflater(true)));
+  }
 
   protected void assertInvalidResponse(String entity, String acs, String expectedErrorMessage) throws SecurityException, MessageEncodingException, SignatureException, MarshallingException, UnknownHostException {
     String url = samlRequestUtils.redirectUrl(entity, "http://localhost:" + port + "/", acs, Optional.empty(), true);

@@ -114,6 +114,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public SAMLEntryPoint samlEntryPoint() {
     WebSSOProfileOptions webSSOProfileOptions = new WebSSOProfileOptions();
     webSSOProfileOptions.setIncludeScoping(false);
+    webSSOProfileOptions.setBinding("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect");
 
     SAMLEntryPoint samlEntryPoint = new SAMLEntryPoint();
     samlEntryPoint.setDefaultProfileOptions(webSSOProfileOptions);
@@ -128,7 +129,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(WebSecurity web) throws Exception {
-    web.ignoring().antMatchers("/health", "/info");
+    web.ignoring().antMatchers("/health", "/info", "/service/catalog");
   }
 
   @Override

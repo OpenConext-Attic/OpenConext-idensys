@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esc:ServiceCatalogue
+  xmlns:esc="urn:etoegang:1.10:service-catalog" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+  esc:IssueInstant="2015-12-28T10:19:57Z" esc:Version="urn:etoegang:1.10:53" ID="_dc">
+   
+    
+  <ds:Signature>
+    SahDhCIC6FaxvF66u25udWduEBW2U7tmwrNM4iLAfjJutwVbJIZBTZHyd7Jh9oAj+K69kfXxSqnn3Kb8dzumZ1in+psYoOXa9zvI17uMTm+nfAdwGQ262vCXISRLd14J95iXZ4PLT+hktHJCjBn/FQd+28zLoagDNELad0XnC0PRoNa9HrdiS/fSTPediQD/6ravqMPY8BgKiybrcA4B+LxQbPEkhopSKoyW1owt6xgQEsZRtA359t7d4FBrInckz8sR9hNBXwkcwW0nqPdzm6RrRkbzZAcqmBH+80ivFMtUDZOA31qqZElC49GPLd9vERudrkuMRhSMrLaweh+LEw==
+  </ds:Signature>
+
+  <esc:ServiceProvider esc:IsPublic="true">
+        
+    <esc:ServiceProviderID>87157352092511980227</esc:ServiceProviderID>
+        
+    <esc:OrganizationDisplayName xml:lang="nl">SURFconext Idensys PoC</esc:OrganizationDisplayName>
+        
+    <esc:OrganizationDisplayName xml:lang="en">SURFconext Idensys PoC</esc:OrganizationDisplayName>
+     
+        
+    <esc:ServiceDefinition esc:IsPublic="true">
+            
+      <esc:ServiceUUID>3307D2EC-3B06-4ADC-99A0-341FF0275B4D</esc:ServiceUUID>
+            
+      <esc:ServiceName xml:lang="nl">SURFconext Idensys PoC</esc:ServiceName>
+            
+      <esc:ServiceName xml:lang="en">SURFconext Idensys PoC</esc:ServiceName>
+            
+      <esc:ServiceDescription xml:lang="nl">SURFconext Idensys PoC</esc:ServiceDescription>
+            
+      <esc:ServiceDescription xml:lang="en">SURFconext Idensys PoC</esc:ServiceDescription>
+            
+      <esc:ServiceDescriptionURL xml:lang="nl">https://www.surf.nl/en/services-and-products/surfconext/index.html
+      </esc:ServiceDescriptionURL>
+            
+      <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport
+      </saml:AuthnContextClassRef>
+            
+      <esc:HerkenningsmakelaarId>99999999000000000010</esc:HerkenningsmakelaarId>
+            
+      <esc:RequestedAttribute Name="urn:etoegang:1.9:attribute:FirstName" isRequired="false">
+                
+        <esc:PurposeStatement xml:lang="nl">Ten behoeve van het weergeven</esc:PurposeStatement>
+                
+        <esc:PurposeStatement xml:lang="en">For display purposes</esc:PurposeStatement>
+              
+      </esc:RequestedAttribute>
+            
+      <esc:RequestedAttribute Name="urn:etoegang:1.9:attribute:FamilyName" isRequired="true">
+                
+        <esc:PurposeStatement xml:lang="nl">Ten behoeve van het weergeven</esc:PurposeStatement>
+                
+        <esc:PurposeStatement xml:lang="en">For display purposes</esc:PurposeStatement>
+              
+      </esc:RequestedAttribute>
+            
+      <esc:RequestedAttribute Name="urn:etoegang:1.9:attribute:Email" isRequired="true">
+                
+        <esc:PurposeStatement xml:lang="nl">Ten behoeve van informatie voorziening</esc:PurposeStatement>
+                
+        <esc:PurposeStatement xml:lang="en">For communication purposes</esc:PurposeStatement>
+              
+      </esc:RequestedAttribute>
+          
+    </esc:ServiceDefinition>
+     
+        
+    <esc:ServiceInstance esc:IsPublic="true">
+            
+      <esc:ServiceID>urn:etoegang:DV:87157352092511980227:services:0001</esc:ServiceID>
+            
+      <esc:ServiceUUID>1797DB59-BCC3-49FB-9944-A59CA3BDF7C9</esc:ServiceUUID>
+            
+      <esc:InstanceOfService>3307D2EC-3B06-4ADC-99A0-341FF0275B4D</esc:InstanceOfService>
+            
+      <esc:ServiceURL xml:lang="nl">https://www.surf.nl/en/services-and-products/surfconext/index.html</esc:ServiceURL>
+            
+      <esc:ServiceURL xml:lang="en">https://www.surf.nl/en/services-and-products/surfconext/index.html</esc:ServiceURL>
+            
+      <esc:PrivacyPolicyURL xml:lang="nl">
+        https://wiki.surfnet.nl/download/attachments/24707702/Privacy_policy_SURFconext_v1.0%283%29.pdf?version%3D1%26modificationDate%3D1395833946155%26api%3Dv2
+      </esc:PrivacyPolicyURL>
+            
+      <esc:HerkenningsmakelaarId>99999999000000000010</esc:HerkenningsmakelaarId>
+            
+      <esc:SSOSupport>true</esc:SSOSupport>
+            
+      <esc:ServiceCertificate>
+                
+        <md:KeyDescriptor use="signing">
+                    
+          <ds:KeyInfo>
+                        
+            <ds:KeyName>SP SSO Key</ds:KeyName>
+                        
+            <ds:X509Data>
+                            
+              <X509Certificate>
+                MIIDEzCCAfugAwIBAgIJAKoK/heBjcOYMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNVBAoMFU9yZ2FuaXphdGlvbiwgQ049T0lEQzAeFw0xNTExMTExMDEyMTVaFw0yNTExMTAxMDEyMTVaMCAxHjAcBgNVBAoMFU9yZ2FuaXphdGlvbiwgQ049T0lEQzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANBGwJ/qpTQNiSgUglSE2UzEkUow+wS8r67etxoEhlzJZfgK/k5TfG1wICDqapHAxEVgUM10aBHRctNocA5wmlHtxdidhzRZroqHwpKy2BmsKX5Z2oK25RLpsyusB1KroemgA/CjUnI6rIL1xxFn3KyOFh1ZBLUQtKNQeMS7HFGgSDAp+sXuTFujz12LFDugX0T0KB5a1+0l8y0PEa0yGa1oi6seONx849ZHxM0PRvUunWkuTM+foZ0jZpFapXe02yWMqhc/2iYMieE/3GvOguJchJt6R+cut8VBb6ubKUIGK7pmoq/TB6DVXpvsHqsDJXechxcicu4pdKVDHSec850CAwEAAaNQME4wHQYDVR0OBBYEFK7RqjoodSYVXGTVEdLf3kJflP/sMB8GA1UdIwQYMBaAFK7RqjoodSYVXGTVEdLf3kJflP/sMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBADNZkxlFXh4F45muCbnQd+WmaXlGvb9tkUyAIxVL8AIu8J18F420vpnGpoUAE+Hy3evBmp2nkrFAgmr055fAjpHeZFgDZBAPCwYd3TNMDeSyMta3Ka+oS7GRFDePkMEm+kH4/rITNKUF1sOvWBTSowk9TudEDyFqgGntcdu/l/zRxvx33y3LMG5USD0x4X4IKjRrRN1BbcKgi8dq10C3jdqNancTuPoqT3WWzRvVtB/q34B7F74/6JzgEoOCEHufBMp4ZFu54P0yEGtWfTwTzuoZobrChVVBt4w/XZagrRtUCDNwRpHNbpjxYudbqLqpi1MQpV9oht/BpTHVJG2i0ro=
+              </X509Certificate>
+                          
+            </ds:X509Data>
+                      
+          </ds:KeyInfo>
+                  
+        </md:KeyDescriptor>
+              
+      </esc:ServiceCertificate>
+          
+    </esc:ServiceInstance>
+     
+      
+  </esc:ServiceProvider>
+   
+</esc:ServiceCatalogue>

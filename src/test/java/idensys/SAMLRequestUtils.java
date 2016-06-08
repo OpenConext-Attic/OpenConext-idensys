@@ -17,6 +17,7 @@ import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.security.criteria.EntityIDCriteria;
 import org.opensaml.xml.signature.SignatureException;
+import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.saml.key.KeyManager;
 
@@ -25,6 +26,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static idensys.saml.SAMLBuilder.*;
+import java.io.*;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.xml.security.Init;
+import org.apache.xml.security.c14n.Canonicalizer;
+import org.apache.xml.security.signature.XMLSignature;
+import org.apache.xml.security.transforms.Transforms;
+import org.apache.xml.security.utils.Constants;
+import org.apache.xml.security.utils.ElementProxy;
+import org.w3c.dom.Document;
 
 public class SAMLRequestUtils {
 
@@ -90,6 +105,29 @@ public class SAMLRequestUtils {
     encoder.encode(messageContext);
 
     return response.getRedirectedUrl();
+  }
+
+  public String signFile(Resource xmlResource) throws Exception {
+    Init.init();
+
+    Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlResource.getInputStream());
+    ElementProxy.setDefaultPrefix(Constants.SignatureSpecNS, "");
+    XMLSignature sig = new XMLSignature(doc, null, XMLSignature.ALGO_ID_SIGNATURE_RSA);
+    Transforms transforms = new Transforms(doc);
+    transforms.addTransform(Transforms.TRANSFORM_ENVELOPED_SIGNATURE);
+    sig.addDocument("", transforms, Constants.ALGO_ID_DIGEST_SHA1);
+
+    Credential credential = keyManager.getCredential("https://idensys.localhost.surfconext.nl");
+
+    Key privateKey = credential.getPrivateKey();
+    X509Certificate certificate = keyManager.getCertificate("https://idensys.localhost.surfconext.nl");
+    sig.addKeyInfo(certificate);
+    sig.addKeyInfo(certificate.getPublicKey());
+    sig.sign(privateKey);
+    doc.getDocumentElement().appendChild(sig.getElement());
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    outputStream.write(Canonicalizer.getInstance(Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS).canonicalizeSubtree(doc));
+    return outputStream.toString();
   }
 
 }

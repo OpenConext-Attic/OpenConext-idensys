@@ -2,6 +2,7 @@ package idensys.web;
 
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opensaml.ws.message.encoder.MessageEncodingException;
 import org.opensaml.xml.io.MarshallingException;
@@ -48,7 +49,7 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
     ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/test", String.class);
 
     //This is the AuthnRequest from the idensys to the real IdP
-    String saml = decodeSaml(response, false);
+    String saml = decodeSamlRedirect(response);
 
     assertTrue(saml.contains("AssertionConsumerServiceURL=\"http://localhost:8080/saml/SSO\""));
     assertTrue(saml.contains("Destination=\"https://eid.digidentity-accept.eu/hm/eh19/dv_hm\""));
@@ -72,6 +73,13 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
     response = restTemplate.exchange(location, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
 
     assertUserResponse(response);
+  }
+
+  @Test
+  @Ignore
+  public void testSignature() throws Exception {
+    String xml = samlRequestUtils.signFile(new ClassPathResource("service_catalog.xml"));
+    //Copy & Paste the signature
   }
 
   @Test
