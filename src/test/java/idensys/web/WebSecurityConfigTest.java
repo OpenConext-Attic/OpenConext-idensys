@@ -10,6 +10,7 @@ import org.opensaml.xml.signature.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
+import org.springframework.security.saml.SAMLProcessingFilter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -35,6 +36,8 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
   @Value("${proxy.entity_id}")
   private String serviceProviderEntityId;
 
+  private String identityProviderEntityId = "urn:etoegang:HM:00000003273226310000:entities:3019";
+
   @Test
   public void testInvalidSignature() throws UnknownHostException, SecurityException, SignatureException, MarshallingException, MessageEncodingException {
     String url = samlRequestUtils.redirectUrl(serviceProviderEntityId, "http://localhost:" + port + "/saml/idp", serviceProviderACSLocation, Optional.empty(), true);
@@ -47,27 +50,22 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
   public void testProxyTestEndpoint() throws Exception {
     ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/test", String.class);
 
-    //This is the AuthnRequest from the idensys to the real IdP
-    String saml = decodeSaml(response, false);
+    //This is the redirect with the SAMLart to the real IdP
+    String artifact = decodeSamlArtifactRedirect(response);
 
-    assertTrue(saml.contains("AssertionConsumerServiceURL=\"http://localhost:8080/saml/SSO\""));
-    assertTrue(saml.contains("Destination=\"https://eid.digidentity-accept.eu/hm/eh19/dv_hm\""));
-
-    String samlResponse = getIdPSAMLResponse(saml);
-
-    MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-    map.add("SAMLResponse", Base64.getEncoder().encodeToString(samlResponse.getBytes()));
+    String artifactResolve = samlRequestUtils.artifactResolve("http://localhost:8080" + SAMLProcessingFilter.FILTER_URL, identityProviderEntityId, artifact);
 
     HttpHeaders httpHeaders = buildCookieHeaders(response);
+    httpHeaders.setContentType(MediaType.TEXT_XML);
 
-    // now mimic a response from the real IdP with a valid AuthnResponse and the correct cookie header
-    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map, httpHeaders);
+    // send the artifactResolve to the proxy
+    HttpEntity<String> httpEntity = new HttpEntity<>(artifactResolve, httpHeaders);
     response = restTemplate.exchange("http://localhost:" + port + "/saml/SSO", HttpMethod.POST, httpEntity, String.class);
 
     assertEquals(302, response.getStatusCode().value());
 
     String location = response.getHeaders().getFirst("Location");
-    assertEquals("http://localhost:"+port+"/test", location);
+    assertEquals("http://localhost:" + port + "/test", location);
 
     response = restTemplate.exchange(location, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
 
@@ -76,7 +74,7 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
   @Test
   public void testInvalidACS() throws UnknownHostException, SecurityException, SignatureException, MarshallingException, MessageEncodingException {
-    assertInvalidResponse(entityId, "http://bogus", "ServiceProvider " + entityId + " has not published ACS ");
+    assertInvalidResponse(entityId, "http://bogus", "ServiceProvider " + entityId + " has not published ACS");
   }
 
   @Test

@@ -39,12 +39,12 @@ public abstract class AbstractWebSecurityConfigTest extends AbstractIntegrationT
   }
 
   protected void assertAuthResponse(ResponseEntity<String> response) {
-    String samlResponse = decodeSaml(response, true);
+    String samlResponse = decodeSamlPost(response, true);
 
     assertTrue(samlResponse.contains("Destination=\""+ acsLocation +"\""));
   }
 
-  protected String decodeSaml(ResponseEntity<String> response, boolean isResponse) {
+  protected String decodeSamlPost(ResponseEntity<String> response, boolean isResponse) {
     assertEquals(200, response.getStatusCode().value());
 
     String html = response.getBody();
@@ -57,14 +57,20 @@ public abstract class AbstractWebSecurityConfigTest extends AbstractIntegrationT
     return new String(Base64.getDecoder().decode(samlBase64Encoded));
   }
 
-//  protected String decodeSaml(ResponseEntity<String> response) throws URISyntaxException, IOException {
-//    String location = response.getHeaders().getLocation().toString();
-//
-//    Map<String, String> queryParameters = queryParameters(location);
-//    byte[] decodedBytes = Base64.getDecoder().decode(queryParameters.get("SAMLRequest"));
-//
-//    return IOUtils.toString(new InflaterInputStream(new ByteArrayInputStream(decodedBytes), new Inflater(true)));
-//  }
+  protected String decodeSamlArtifactRedirect(ResponseEntity<String> response) throws URISyntaxException {
+    String location = response.getHeaders().getLocation().toString();
+    //https://eid.digidentity-accept.eu/hm/eh19/dv_hm?SAMLart=AAQAABxeJBIvD4dLuuvHbWYzCZ37qlMHy5jK%2BDF9P1CY6bNnxgEPfOJftCc%3D
+    return queryParameters(location).get("SAMLart");
+  }
+
+  protected String decodeSamlRedirect(ResponseEntity<String> response) throws URISyntaxException, IOException {
+    String location = response.getHeaders().getLocation().toString();
+
+    Map<String, String> queryParameters = queryParameters(location);
+    byte[] decodedBytes = Base64.getDecoder().decode(queryParameters.get("SAMLRequest"));
+
+    return IOUtils.toString(new InflaterInputStream(new ByteArrayInputStream(decodedBytes), new Inflater(true)));
+  }
 
   protected void assertInvalidResponse(String entity, String acs, String expectedErrorMessage) throws SecurityException, MessageEncodingException, SignatureException, MarshallingException, UnknownHostException {
     String url = samlRequestUtils.redirectUrl(entity, "http://localhost:" + port + "/", acs, Optional.empty(), true);

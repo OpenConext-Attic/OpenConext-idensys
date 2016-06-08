@@ -7,8 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 
 @WebIntegrationTest(value = {"server.port=0", "spring.profiles.active=dev", "serviceproviders.allow_unknown=true"})
@@ -19,9 +18,9 @@ public class AllowAllWebSecurityConfigTest extends AbstractWebSecurityConfigTest
     String url = samlRequestUtils.redirectUrl("http://bogus", "http://localhost:" + port + "/saml/idp", acsLocation, Optional.empty(), false);
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-    String saml = decodeSaml(response, false);
+    String saml = decodeSamlArtifactRedirect(response);
 
-    assertTrue(saml.contains("Destination=\"https://eid.digidentity-accept.eu/hm/eh19/dv_hm\""));
+    assertNotNull(saml);
   }
 
 }

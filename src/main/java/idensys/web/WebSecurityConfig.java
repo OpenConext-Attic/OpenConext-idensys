@@ -4,8 +4,10 @@ import idensys.saml.*;
 import org.apache.velocity.app.VelocityEngine;
 import org.opensaml.common.binding.security.IssueInstantRule;
 import org.opensaml.common.binding.security.MessageReplayRule;
+import org.opensaml.common.xml.SAMLConstants;
 import org.opensaml.saml2.binding.decoding.HTTPRedirectDeflateDecoder;
 import org.opensaml.saml2.binding.encoding.HTTPPostSimpleSignEncoder;
+import org.opensaml.saml2.metadata.*;
 import org.opensaml.saml2.metadata.provider.MetadataProvider;
 import org.opensaml.saml2.metadata.provider.MetadataProviderException;
 import org.opensaml.util.storage.MapBasedStorageService;
@@ -114,6 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public SAMLEntryPoint samlEntryPoint() {
     WebSSOProfileOptions webSSOProfileOptions = new WebSSOProfileOptions();
     webSSOProfileOptions.setIncludeScoping(false);
+    webSSOProfileOptions.setBinding(SAMLConstants.SAML2_ARTIFACT_BINDING_URI);
 
     SAMLEntryPoint samlEntryPoint = new SAMLEntryPoint();
     samlEntryPoint.setDefaultProfileOptions(webSSOProfileOptions);
@@ -249,9 +252,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public MetadataGenerator metadataGenerator() throws NoSuchAlgorithmException, CertificateException, InvalidKeySpecException, KeyStoreException, IOException, XMLStreamException {
-    MetadataGenerator metadataGenerator = new MetadataGenerator();
+    MetadataGenerator metadataGenerator = new MetadataGenerator() {
+      @Override
+      public EntityDescriptor generateMetadata() {
+        EntityDescriptor entityDescriptor = super.generateMetadata();
+        RoleDescriptor roleDescriptor = entityDescriptor.getRoleDescriptors().get(0);
+        SSODescriptor descriptor = (SSODescriptor) roleDescriptor;
+
+        ArtifactResolutionService artifactResolutionService = SAMLBuilder.buildSAMLObject(ArtifactResolutionService.class, ArtifactResolutionService.DEFAULT_ELEMENT_NAME);
+        artifactResolutionService.setLocation(idensysBaseUrl + SAMLProcessingFilter.FILTER_URL);
+        artifactResolutionService.setBinding(SAMLConstants.SAML2_SOAP11_BINDING_URI);
+        artifactResolutionService.setResponseLocation(idensysBaseUrl + SAMLProcessingFilter.FILTER_URL);
+        artifactResolutionService.setIndex(0);
+
+        descriptor.getArtifactResolutionServices().add(artifactResolutionService);
+
+        return entityDescriptor;
+      }
+    };
     metadataGenerator.setEntityId(idensysEntityId);
     metadataGenerator.setEntityBaseURL(idensysBaseUrl);
+
     metadataGenerator.setExtendedMetadata(extendedMetadata());
     metadataGenerator.setIncludeDiscoveryExtension(false);
     metadataGenerator.setKeyManager(keyManager());

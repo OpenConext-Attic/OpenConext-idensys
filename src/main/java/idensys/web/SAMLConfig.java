@@ -3,8 +3,13 @@ package idensys.web;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.velocity.app.VelocityEngine;
+import org.opensaml.common.binding.artifact.BasicSAMLArtifactMap;
+import org.opensaml.common.binding.artifact.SAMLArtifactMap;
+import org.opensaml.saml2.binding.decoding.HTTPArtifactDecoderImpl;
 import org.opensaml.saml2.binding.decoding.HTTPPostDecoder;
+import org.opensaml.saml2.binding.encoding.HTTPArtifactEncoder;
 import org.opensaml.saml2.binding.encoding.HTTPPostEncoder;
+import org.opensaml.util.storage.MapBasedStorageService;
 import org.opensaml.xml.parse.ParserPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +43,11 @@ public class SAMLConfig {
   @Bean
   @Autowired
   public HTTPArtifactBinding artifactBinding(ParserPool parserPool, VelocityEngine velocityEngine) {
-    return new HTTPArtifactBinding(parserPool, velocityEngine, artifactResolutionProfile(parserPool));
+    BasicSAMLArtifactMap map = new BasicSAMLArtifactMap(new MapBasedStorageService<>(), 1000 * 60 * 5);
+    HTTPArtifactDecoderImpl decoder = new HTTPArtifactDecoderImpl(artifactResolutionProfile(parserPool), parserPool);
+    HTTPArtifactEncoder encoder = new HTTPArtifactEncoder(velocityEngine, "/templates/saml2-post-artifact-binding.vm", map);
+    //return new HTTPArtifactBinding(parserPool, velocityEngine, artifactResolutionProfile(parserPool));
+    return new HTTPArtifactBinding(decoder, encoder);
   }
 
   @Bean
