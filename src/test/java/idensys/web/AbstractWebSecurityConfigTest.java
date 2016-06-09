@@ -40,12 +40,6 @@ public abstract class AbstractWebSecurityConfigTest extends AbstractIntegrationT
     return new String(Base64.getDecoder().decode(matcher.group(1)));
   }
 
-  protected void assertAuthResponse(ResponseEntity<String> response) {
-    String samlResponse = decodeSaml(response, true);
-
-    assertTrue(samlResponse.contains("Destination=\""+ acsLocation +"\""));
-  }
-
   protected String decodeSaml(ResponseEntity<String> response, boolean isResponse) {
     assertEquals(200, response.getStatusCode().value());
 

@@ -1,11 +1,20 @@
 package idensys.web;
 
 
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
+import com.github.tomakehurst.wiremock.common.FileSource;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.extension.Parameters;
+import com.github.tomakehurst.wiremock.extension.ResponseTransformer;
+import com.github.tomakehurst.wiremock.http.Request;
+import com.github.tomakehurst.wiremock.http.Response;
+import com.github.tomakehurst.wiremock.http.ResponseDefinition;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.opensaml.saml2.metadata.provider.MetadataProviderException;
 import org.opensaml.ws.message.encoder.MessageEncodingException;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.security.SecurityException;
@@ -16,6 +25,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,13 +54,7 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
   private String serviceProviderEntityId;
 
   @Rule
-  public WireMockRule digidentityWireMock = new WireMockRule(9999);
-//    wireMockConfig()
-//    .httpsPort(8443)
-//    .keystorePath("src/test/resources/my.jks")
-//    .keystorePassword("secret"));
-//    .trustStorePath("src/test/resources/my.jks")
-//    .trustStorePassword("secret"));
+  public WireMockRule digidentityWireMock = new WireMockRule(9999) ;
 
   @Test
   public void testInvalidSignature() throws UnknownHostException, SecurityException, SignatureException, MarshallingException, MessageEncodingException {
@@ -59,11 +63,41 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
     doAssertInvalidResponse("Exception during validation of AuthnRequest (Error during signature verification)", mangledUrl);
   }
+  @Test
+  public void testProxyHappyFlow() throws Exception {
+    String url = samlRequestUtils.redirectUrl(serviceProviderEntityId, "http://localhost:" + port + "/saml/idp", serviceProviderACSLocation, Optional.empty(), true);
+
+    ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+    HttpHeaders httpHeaders = buildCookieHeaders(response);
+
+    response = getSAMLResponse(response, httpHeaders);
+
+    assertEquals(200, response.getStatusCode().value());
+
+    //we expect the automatic posting of the form back to the SP
+    String body = response.getBody();
+    assertTrue(body.contains("<body onload=\"document.forms[0].submit()\">"));
+    assertTrue(body.contains("<input type=\"hidden\" name=\"SAMLResponse\""));
+    assertTrue(body.contains("<input type=\"hidden\" name=\"Signature\""));
+  }
 
   @Test
   public void testProxyTestEndpoint() throws Exception {
     ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/test", String.class);
+    HttpHeaders httpHeaders = buildCookieHeaders(response);
 
+    response = getSAMLResponse(response, httpHeaders);
+
+    assertEquals(302, response.getStatusCode().value());
+
+    String location = response.getHeaders().getLocation().toString();
+    assertEquals("http://localhost:"+port+"/test", location);
+
+    response = restTemplate.exchange(location, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
+    assertUserResponse(response);
+  }
+
+  private ResponseEntity<String> getSAMLResponse(ResponseEntity<String> response, HttpHeaders httpHeaders) throws URISyntaxException, IOException, MetadataProviderException {
     //This is the AuthnRequest from the idensys to the real IdP
     String saml = decodeSamlRedirect(response);
 
@@ -72,29 +106,14 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
     String samlResponse = getIdPSAMLResponse(saml);
 
-//    HttpHeaders httpHeaders = buildCookieHeaders(response);
-//    HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+    HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
     String artifact = samlRequestUtils.artifact(metadataManager, identityProviderEntityId);
 
     digidentityWireMock.stubFor(post(urlEqualTo("/resolve")).willReturn(aResponse().withStatus(200).withBody(samlResponse)));
 
-    response = restTemplate.getForEntity("http://localhost:" + port + "/saml/SSO?SAMLart=" + artifact, String.class);
-
-
-    System.out.println(response);
-    // now mimic a response from the real IdP with a valid AuthnResponse and the correct cookie header
-//    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map, httpHeaders);
-//    response = restTemplate.exchange("http://localhost:" + port + "/saml/SSO", HttpMethod.POST, httpEntity, String.class);
-//
-//    assertEquals(302, response.getStatusCode().value());
-//
-//    String location = response.getHeaders().getFirst("Location");
-//    assertEquals("http://localhost:"+port+"/test", location);
-//
-//    response = restTemplate.exchange(location, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
-//
-//    assertUserResponse(response);
+    return restTemplate.exchange("http://localhost:" + port + "/saml/SSO?SAMLart=" + artifact, HttpMethod.GET, httpEntity, String.class);
   }
+
 
   @Test
   @Ignore

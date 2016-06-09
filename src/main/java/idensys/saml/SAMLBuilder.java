@@ -138,41 +138,6 @@ public class SAMLBuilder {
     Signer.signObject(signature);
   }
 
-  public String artifactResolve(String destination, String entityId, String artifactValue) throws SecurityException, MarshallingException, SignatureException, TransformerException, ParserConfigurationException {
-    ArtifactResponse artifactResponse = buildSAMLObject(ArtifactResponse.class, ArtifactResponse.DEFAULT_ELEMENT_NAME);
-
-
-    ArtifactResolve artifactResolve = buildSAMLObject(ArtifactResolve.class, ArtifactResolve.DEFAULT_ELEMENT_NAME);
-    artifactResolve.setID(UUID.randomUUID().toString());
-    artifactResolve.setIssueInstant(new DateTime());
-    artifactResolve.setDestination(destination);
-    artifactResolve.setIssuer(buildIssuer(entityId));
-
-
-    Artifact artifact = buildSAMLObject(Artifact.class, Artifact.DEFAULT_ELEMENT_NAME);
-    artifact.setArtifact(artifactValue);
-    artifactResolve.setArtifact(artifact);
-
-//    TODO: if we want to sign this then we need the private key of the IdP which we would only need for testing purposes
-//    Credential signingCredential = keyManager.resolveSingle(new CriteriaSet(new EntityIDCriteria(entityId)));
-//    signAssertion(artifactResolve, signingCredential);
-    Envelope envelope = buildSAMLObject(Envelope.class, Envelope.DEFAULT_ELEMENT_NAME);
-
-    Body body = buildSAMLObject(Body.class, Body.DEFAULT_ELEMENT_NAME);
-    body.getUnknownXMLObjects().add(artifactResolve);
-
-    envelope.setBody(body);
-    return writeXMLObject(envelope);
-
-  }
-
-  private String writeXMLObject(XMLObject xmlObject) throws ParserConfigurationException, MarshallingException, TransformerException {
-    Marshaller marshaller = Configuration.getMarshallerFactory().getMarshaller(xmlObject);
-    Element element = marshaller.marshall(xmlObject);
-    return XMLHelper.nodeToString(element);
-  }
-
-
   public static Optional<String> getStringValueFromXMLObject(XMLObject xmlObj) {
     if (xmlObj instanceof XSString) {
       return Optional.of(((XSString) xmlObj).getValue());
