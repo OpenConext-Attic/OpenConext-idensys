@@ -6,5 +6,4 @@
     - initial
     - { role: httpd, tags: httpd }
     - { role: java, tags: java }
-    - ssl
     - { role: idensys, tags: idensys }

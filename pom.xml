@@ -79,6 +79,10 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <excludeDevtools>true</excludeDevtools>
+          <executable>true</executable>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>pl.project13.maven</groupId>

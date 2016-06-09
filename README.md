@@ -127,3 +127,12 @@ keytool -importcert -file idensys.crt  -keystore my.jks -alias idensys //secret
 The Idensys application has documented [properties](src/main/resources/application.yml) packaged inside the jar. When deploying
 to a non-local environment ensure you have application.yml properties outside of the packaged jar to override
 the Idensys configuration.
+
+For full deployment with ansible:
+
+```bash
+cd ansible
+ansible-playbook -i "test" -u centos -K idensys.yml
+```
+
+To only update the Spring Boot jar append `--tags "idensys"`

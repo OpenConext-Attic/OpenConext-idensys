@@ -1,6 +1,6 @@
 ---
 idensys_dir: /opt/idensys
-idensys_group_id: org.surfnet
+idensys_group_id: org.openconext
 idensys_artifact: idensys
 idensys_heapsize: 1024m
 idensys_port: 9290

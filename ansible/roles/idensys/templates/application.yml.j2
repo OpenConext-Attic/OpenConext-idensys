@@ -1,12 +1,12 @@
 logging:
-  config: server.port={{ biometric_port }}
+  config: server.port={{ idensys_port }}
   level:
     idensys: DEBUG
     org.springframework.security: DEBUG
 
 server:
   # The port to where this Spring Boot application listens to.
-  port: {{ biometric_port }}
+  port: {{ idensys_port }}
 
 # Identity Provider. The metadata_url can (and should) be a https resource
 idp:
