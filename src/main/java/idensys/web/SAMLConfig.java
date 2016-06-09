@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.saml.SAMLBootstrap;
 import org.springframework.security.saml.log.SAMLDefaultLogger;
+import org.springframework.security.saml.metadata.MetadataManager;
 import org.springframework.security.saml.processor.*;
 import org.springframework.security.saml.websso.*;
 
@@ -37,8 +38,8 @@ public class SAMLConfig {
 
   @Bean
   @Autowired
-  public HTTPArtifactBinding artifactBinding(ParserPool parserPool, VelocityEngine velocityEngine) {
-    return new HTTPArtifactBinding(parserPool, velocityEngine, artifactResolutionProfile(parserPool));
+  public HTTPArtifactBinding artifactBinding(ParserPool parserPool, VelocityEngine velocityEngine, MetadataManager metadataManager) {
+    return new HTTPArtifactBinding(parserPool, velocityEngine, artifactResolutionProfile(parserPool, metadataManager));
   }
 
   @Bean
@@ -74,11 +75,11 @@ public class SAMLConfig {
 
   @Autowired
   @Bean
-  public SAMLProcessorImpl processor(VelocityEngine velocityEngine, ParserPool parserPool) {
+  public SAMLProcessorImpl processor(VelocityEngine velocityEngine, ParserPool parserPool, MetadataManager metadataManager) {
     Collection<SAMLBinding> bindings = new ArrayList<>();
     bindings.add(httpRedirectDeflateBinding(parserPool));
     bindings.add(httpPostBinding(parserPool, velocityEngine));
-    bindings.add(artifactBinding(parserPool, velocityEngine));
+    bindings.add(artifactBinding(parserPool, velocityEngine, metadataManager));
     bindings.add(httpSOAP11Binding(parserPool));
     bindings.add(httpPAOS11Binding(parserPool));
     return new SAMLProcessorImpl(bindings);
@@ -114,9 +115,10 @@ public class SAMLConfig {
     return new WebSSOProfileECPImpl();
   }
 
-  private ArtifactResolutionProfile artifactResolutionProfile(ParserPool parserPool) {
-    final ArtifactResolutionProfileImpl artifactResolutionProfile = new ArtifactResolutionProfileImpl(httpClient());
+  private ArtifactResolutionProfile artifactResolutionProfile(ParserPool parserPool, MetadataManager metadataManager) {
+    ArtifactResolutionProfileImpl artifactResolutionProfile = new ArtifactResolutionProfileImpl(httpClient());
     artifactResolutionProfile.setProcessor(new SAMLProcessorImpl(soapBinding(parserPool)));
+    artifactResolutionProfile.setMetadata(metadataManager);
     return artifactResolutionProfile;
   }
 

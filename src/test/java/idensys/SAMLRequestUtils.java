@@ -1,14 +1,25 @@
 package idensys;
 
 import org.joda.time.DateTime;
+import org.opensaml.Configuration;
 import org.opensaml.common.binding.BasicSAMLMessageContext;
 import org.opensaml.common.binding.SAMLMessageContext;
+import org.opensaml.common.binding.artifact.BasicSAMLArtifactMap;
+import org.opensaml.common.xml.SAMLConstants;
+import org.opensaml.saml2.binding.artifact.AbstractSAML2Artifact;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilder;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
+import org.opensaml.saml2.binding.decoding.HTTPArtifactDecoderImpl;
+import org.opensaml.saml2.binding.encoding.HTTPArtifactEncoder;
 import org.opensaml.saml2.binding.encoding.HTTPRedirectDeflateEncoder;
 import org.opensaml.saml2.core.AuthnRequest;
 import org.opensaml.saml2.core.NameID;
 import org.opensaml.saml2.core.Subject;
 import org.opensaml.saml2.metadata.Endpoint;
+import org.opensaml.saml2.metadata.RoleDescriptor;
 import org.opensaml.saml2.metadata.SingleSignOnService;
+import org.opensaml.saml2.metadata.provider.MetadataProviderException;
+import org.opensaml.util.storage.MapBasedStorageService;
 import org.opensaml.ws.message.encoder.MessageEncodingException;
 import org.opensaml.ws.transport.http.HttpServletResponseAdapter;
 import org.opensaml.xml.io.MarshallingException;
@@ -26,10 +37,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static idensys.saml.SAMLBuilder.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.io.*;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.io.IOUtils;
@@ -39,6 +54,8 @@ import org.apache.xml.security.signature.XMLSignature;
 import org.apache.xml.security.transforms.Transforms;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.ElementProxy;
+import org.springframework.security.saml.metadata.CachingMetadataManager;
+import org.springframework.security.saml.metadata.MetadataManager;
 import org.w3c.dom.Document;
 
 public class SAMLRequestUtils {
@@ -128,6 +145,23 @@ public class SAMLRequestUtils {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     outputStream.write(Canonicalizer.getInstance(Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS).canonicalizeSubtree(doc));
     return outputStream.toString();
+  }
+
+  public String artifact(MetadataManager metadataManager, String entityId) throws MetadataProviderException {
+    SAMLMessageContext requestContext = mock(SAMLMessageContext.class);
+    RoleDescriptor roleDescriptor = mock(RoleDescriptor .class);
+
+    RoleDescriptor role = metadataManager.getRole(entityId, new QName("urn:oasis:names:tc:SAML:2.0:metadata", "IDPSSODescriptor", "md"), SAMLConstants.SAML20P_NS);
+
+    when(requestContext.getLocalEntityRoleMetadata()).thenReturn(role);
+    when(requestContext.getLocalEntityId()).thenReturn(entityId);
+    when(requestContext.getLocalEntityMetadata()).thenReturn(metadataManager.getEntityDescriptor(entityId));
+    when(requestContext.getMetadataProvider()).thenReturn(metadataManager);
+
+    SAML2ArtifactBuilder artifactBuilder = Configuration.getSAML2ArtifactBuilderFactory().getArtifactBuilder(SAML2ArtifactType0004.TYPE_CODE);
+    requestContext.setOutboundMessageArtifactType(SAML2ArtifactType0004.TYPE_CODE);
+    AbstractSAML2Artifact artifact = artifactBuilder.buildArtifact(requestContext);
+    return artifact.base64Encode();
   }
 
 }

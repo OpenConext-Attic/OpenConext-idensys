@@ -29,6 +29,8 @@ public abstract class AbstractWebSecurityConfigTest extends AbstractIntegrationT
 
   protected String acsLocation = "https://engine.test2.surfconext.nl/authentication/sp/consume-assertion";
 
+  protected String identityProviderEntityId = "urn:etoegang:HM:00000003273226310000:entities:3019";
+
   protected String getSAMLResponseForError(ResponseEntity<String> response) {
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 

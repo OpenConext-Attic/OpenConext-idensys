@@ -35,7 +35,6 @@ public class KeyStoreLocator {
     try {
       KeyStore keyStore = KeyStore.getInstance("JKS");
       keyStore.load(null, pemPassPhrase.toCharArray());
-
       return keyStore;
     } catch (Exception e) {
       //too many exceptions we can't handle, so brute force catch

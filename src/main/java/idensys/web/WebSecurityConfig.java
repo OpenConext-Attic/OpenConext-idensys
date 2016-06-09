@@ -205,6 +205,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     ExtendedMetadata extendedMetadata = new ExtendedMetadata();
     extendedMetadata.setIdpDiscoveryEnabled(false);
     extendedMetadata.setSignMetadata(false);
+    extendedMetadata.setTlsKey(idensysEntityId);
     return extendedMetadata;
   }
 

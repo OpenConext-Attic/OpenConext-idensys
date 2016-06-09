@@ -85,7 +85,7 @@ The production SAML flow with a Idensys is depicted in [this image](src/main/res
 The SAML Spring Security library needs a private DSA key / public certificate pair for the Idensys IdP / SP which can be generated.
 
 ```bash
-openssl req -subj '/O=Organization, CN=EduProxy/' -newkey rsa:2048 -new -x509 -days 3652 -nodes -out idensys.crt -keyout idensys.pem
+openssl req -subj '/O=SURFnet, CN=Idensys/' -newkey rsa:2048 -new -x509 -days 3652 -nodes -out idensys.crt -keyout idensys.pem
 ```
 
 The Java KeyStore expects a pkcs8 DER format for RSA private keys so we have to re-format that key:
