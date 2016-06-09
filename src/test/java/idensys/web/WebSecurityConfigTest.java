@@ -14,20 +14,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Base64;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -46,10 +44,13 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
   private String serviceProviderEntityId;
 
   @Rule
-  public WireMockRule wireMockRule = new WireMockRule(wireMockConfig()
-    .httpsPort(9090)
-    .keystorePath("src/test/resources/my.jks")
-    .keystorePassword("secret"));
+  public WireMockRule digidentityWireMock = new WireMockRule(9999);
+//    wireMockConfig()
+//    .httpsPort(8443)
+//    .keystorePath("src/test/resources/my.jks")
+//    .keystorePassword("secret"));
+//    .trustStorePath("src/test/resources/my.jks")
+//    .trustStorePassword("secret"));
 
   @Test
   public void testInvalidSignature() throws UnknownHostException, SecurityException, SignatureException, MarshallingException, MessageEncodingException {
@@ -71,16 +72,15 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
     String samlResponse = getIdPSAMLResponse(saml);
 
-    MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-    map.add("SAMLResponse", Base64.getEncoder().encodeToString(samlResponse.getBytes()));
-
-    HttpHeaders httpHeaders = buildCookieHeaders(response);
-    HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+//    HttpHeaders httpHeaders = buildCookieHeaders(response);
+//    HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
     String artifact = samlRequestUtils.artifact(metadataManager, identityProviderEntityId);
 
+    digidentityWireMock.stubFor(post(urlEqualTo("/resolve")).willReturn(aResponse().withStatus(200).withBody(samlResponse)));
+
+    response = restTemplate.getForEntity("http://localhost:" + port + "/saml/SSO?SAMLart=" + artifact, String.class);
 
 
-    response = restTemplate.exchange("http://localhost:" + port + "/saml/SSO?SAMLart=" + artifact, HttpMethod.GET, httpEntity, String.class);
     System.out.println(response);
     // now mimic a response from the real IdP with a valid AuthnResponse and the correct cookie header
 //    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map, httpHeaders);
@@ -139,7 +139,7 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
     ZonedDateTime date = ZonedDateTime.now();
     String now = date.format(DateTimeFormatter.ISO_INSTANT);
-    String samlResponse = IOUtils.toString(new ClassPathResource("saml/digidentity.authnResponse.saml.xml").getInputStream());
+    String samlResponse = IOUtils.toString(new ClassPathResource("saml/digidentity.artifactResponse.saml.xml").getInputStream());
 
     //Make sure the all the validations pass. We don't sign as this is in dev modus not necessary (and cumbersome)
     samlResponse = samlResponse

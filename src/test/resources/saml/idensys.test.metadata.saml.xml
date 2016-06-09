@@ -226,7 +226,7 @@
       </ds:KeyInfo>
     </md:KeyDescriptor>
     <md:ArtifactResolutionService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP"
-                                  Location="https://localhost:9090" index="1"
+                                  Location="http://localhost:9999/resolve" index="1"
                                   isDefault="true"/>
     <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
                             Location="https://eid.digidentity-accept.eu/hm/eh19/logout"/>
