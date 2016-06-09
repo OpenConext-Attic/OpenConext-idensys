@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
+import org.unbescape.html.HtmlEscape;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -65,7 +66,7 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
   }
   @Test
   public void testProxyHappyFlow() throws Exception {
-    String url = samlRequestUtils.redirectUrl(serviceProviderEntityId, "http://localhost:" + port + "/saml/idp", serviceProviderACSLocation, Optional.empty(), true);
+    String url = samlRequestUtils.redirectUrl(entityId, "http://localhost:" + port + "/saml/idp", acsLocation, Optional.empty(), true);
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
     HttpHeaders httpHeaders = buildCookieHeaders(response);
@@ -79,6 +80,10 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
     assertTrue(body.contains("<body onload=\"document.forms[0].submit()\">"));
     assertTrue(body.contains("<input type=\"hidden\" name=\"SAMLResponse\""));
     assertTrue(body.contains("<input type=\"hidden\" name=\"Signature\""));
+
+    Matcher matcher = Pattern.compile("<form action=\"(.*?)\" method=\"post\">").matcher(body);
+    assertTrue(matcher.find());
+    assertEquals(acsLocation, HtmlEscape.unescapeHtml(matcher.group(1)));
   }
 
   @Test
