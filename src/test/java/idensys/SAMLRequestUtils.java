@@ -149,7 +149,6 @@ public class SAMLRequestUtils {
 
   public String artifact(MetadataManager metadataManager, String entityId) throws MetadataProviderException {
     SAMLMessageContext requestContext = mock(SAMLMessageContext.class);
-    RoleDescriptor roleDescriptor = mock(RoleDescriptor .class);
 
     RoleDescriptor role = metadataManager.getRole(entityId, new QName("urn:oasis:names:tc:SAML:2.0:metadata", "IDPSSODescriptor", "md"), SAMLConstants.SAML20P_NS);
 

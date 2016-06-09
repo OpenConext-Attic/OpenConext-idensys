@@ -32,7 +32,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@WebIntegrationTest(value = {"server.port=0", "spring.profiles.active=dev", "idp.metadata_url=classpath:saml/idensys.test.metadata.saml.xml"})
+@WebIntegrationTest(value = {
+  "server.port=0",
+  "spring.profiles.active=dev",
+  "idp.metadata_url=classpath:saml/idensys.test.metadata.saml.xml",
+  "idp.verify_host_name=false"})
 public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
   @Value("${proxy.acs_location}")
@@ -44,8 +48,8 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(wireMockConfig()
     .httpsPort(9090)
-    .keystorePath("/path/to/keystore.jks")
-    .keystorePassword("verysecret"));
+    .keystorePath("src/test/resources/my.jks")
+    .keystorePassword("secret"));
 
   @Test
   public void testInvalidSignature() throws UnknownHostException, SecurityException, SignatureException, MarshallingException, MessageEncodingException {
@@ -73,6 +77,9 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
     HttpHeaders httpHeaders = buildCookieHeaders(response);
     HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
     String artifact = samlRequestUtils.artifact(metadataManager, identityProviderEntityId);
+
+
+
     response = restTemplate.exchange("http://localhost:" + port + "/saml/SSO?SAMLart=" + artifact, HttpMethod.GET, httpEntity, String.class);
     System.out.println(response);
     // now mimic a response from the real IdP with a valid AuthnResponse and the correct cookie header

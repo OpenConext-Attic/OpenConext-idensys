@@ -1,5 +1,6 @@
 package idensys.web;
 
+import idensys.saml.ConfigurableArtifactResolutionProfile;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.velocity.app.VelocityEngine;
@@ -7,6 +8,7 @@ import org.opensaml.saml2.binding.decoding.HTTPPostDecoder;
 import org.opensaml.saml2.binding.encoding.HTTPPostEncoder;
 import org.opensaml.xml.parse.ParserPool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.saml.SAMLBootstrap;
@@ -25,6 +27,9 @@ import java.util.Collection;
  */
 @Configuration
 public class SAMLConfig {
+
+  @Value("${idp.verify_host_name}")
+  private boolean verifyHostName;
 
   @Bean
   public MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager() {
@@ -116,7 +121,7 @@ public class SAMLConfig {
   }
 
   private ArtifactResolutionProfile artifactResolutionProfile(ParserPool parserPool, MetadataManager metadataManager) {
-    ArtifactResolutionProfileImpl artifactResolutionProfile = new ArtifactResolutionProfileImpl(httpClient());
+    ArtifactResolutionProfileImpl artifactResolutionProfile = new ConfigurableArtifactResolutionProfile(httpClient(), verifyHostName);
     artifactResolutionProfile.setProcessor(new SAMLProcessorImpl(soapBinding(parserPool)));
     artifactResolutionProfile.setMetadata(metadataManager);
     return artifactResolutionProfile;
