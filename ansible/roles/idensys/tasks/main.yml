@@ -1,0 +1,120 @@
+---
+
+- name: install libhttp2 (needed by uri module)
+  pip: name=httplib2 state=present
+
+- name: create application group
+  group: name=idensys state=present
+
+- name: create appplication user
+  user:
+    name: "{{ idensys_user }}"
+    group: "{{ idensys_group }}"
+    home: "{{ idensys_dir }}"
+    shell: /sbin/nologin
+
+- name: create logging directory
+  file:
+    path: /var/log/idensys
+    state: directory
+    owner: "{{ idensys_user }}"
+    group: "{{ idensys_group }}"
+    mode: 0755
+
+- name: copy logging config
+  template:
+    src: logback.xml.j2
+    dest: "{{ idensys_dir }}/logback.xml"
+    owner: "{{ idensys_user }}"
+    group: "{{ idensys_group }}"
+    mode: 0640
+  tags: deploy
+  notify: restart idensys
+
+- name: copy application yml
+  template:
+    src: application.yml.j2
+    dest: "{{ idensys_dir }}/application.yml"
+    owner: "{{ idensys_user }}"
+    group: "{{ idensys_group }}"
+    mode: 0400
+  tags: deploy
+  notify: restart idensys
+
+- name: copy application config
+  template:
+    src: idensys.conf.j2
+    dest: "{{ idensys_dir }}/idensys.conf"
+    owner: root
+    group: root
+    mode: 0400
+  tags: deploy
+  notify: restart idensys
+
+- name: download idensys.jar
+  maven_artifact:
+    group_id: "{{ idensys_group_id }}"
+    artifact_id: "{{ idensys_artifact }}"
+    version: "{{ idensys_version }}"
+    repository_url: "{{ maven_snapshot_repo if 'SNAPSHOT' in idensys_version else maven_repo }}"
+    dest: "{{ idensys_dir }}"
+  tags: deploy
+  register: maven_result
+
+- name: set ownership of application artifact
+  file: path={{ maven_result.dest }} owner={{ idensys_user }} group={{ idensys_group }} mode=0500
+  tags: deploy
+
+- name: change symlink to current version
+  file:
+    src: "{{ maven_result.dest }}"
+    dest: "{{ idensys_dir }}/idensys.jar"
+    state: link
+    owner: "{{ idensys_user }}"
+    group: "{{ idensys_group }}"
+  tags: deploy
+  when: maven_result.changed
+
+- name: link application config
+  file:
+    src: "{{ idensys_dir }}/idensys.conf"
+    dest: "{{ idensys_dir }}/idensys-{{ maven_result.version }}.conf"
+    state: link
+  when: maven_result.changed
+  tags: deploy
+
+- name: create systemd service
+  template:
+    src: idensys.service.j2
+    dest: /etc/systemd/system/idensys.service
+    owner: root
+    group: root
+    mode: 0400
+  tags: deploy
+
+- name: restart idensys
+  service: name=idensys state=restarted
+  tags: deploy
+  when: maven_result.changed
+
+- name: wait for restart
+  uri: url=http://localhost:{{ idensys_port }}/health
+  tags: deploy
+  register: health_result
+  until: health_result.status is defined and health_result.status == 200 and health_result.json.status == "UP"
+  retries: 12
+  delay: 5
+  when: maven_result.changed
+
+#- name: cleanup old artifacts
+#  command: find . ! -name {{ artifact }} -name '*.jar -type f -exec rm {} \; chdir={{ idensys_dir }}
+#  tags: deploy
+#  when: maven_result.changed
+
+- name: copy virtual host config
+  template: src=httpd/idensys.conf.j2 dest=/etc/httpd/conf.d/idensys.conf
+  tags: deploy
+  notify: reload httpd
+
+- name: ensure the service is started
+  service: name=idensys enabled=yes state=started

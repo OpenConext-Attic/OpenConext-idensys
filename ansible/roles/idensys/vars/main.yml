@@ -1,0 +1,11 @@
+---
+idensys_dir: /opt/idensys
+idensys_group_id: org.surfnet
+idensys_artifact: idensys
+idensys_heapsize: 1024m
+idensys_port: 9290
+idensys_user: idensys
+idensys_group: idensys
+idensys_loggers:
+  - { name: "idensys", level: "DEBUG" }
+  - { name: "org.springframework", level: "DEBUG" }

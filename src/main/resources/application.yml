@@ -40,14 +40,14 @@ proxy:
   # duration of metadata cache (1 day)
   validity_duration_metadata_ms: 86400000
 
+# You can skip all the key-value pairs below in the overriding application.yml on the classpath
+
 spring:
   mvc:
     favicon:
       enabled: false
   velocity:
     check-template-location: False
-
-# You can skip all the key-value pairs below in the overriding application.yml on the classpath
 
 # 8 hours before we time-out
 session-timeout: 28800

@@ -1,0 +1,9 @@
+---
+
+- name: set timezone
+  file: state=link src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime force=True
+
+- name: set timezone for java apps that may be started on the commandline
+  template: src=jdk-timezone.sh.j2 dest=/etc/profile.d/jdk-timezone.sh owner=root group=root mode=0644
+
+#- service: name=ntpd state=started enabled=yes

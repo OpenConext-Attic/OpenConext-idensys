@@ -1,0 +1,37 @@
+logging:
+  config: server.port={{ biometric_port }}
+  level:
+    idensys: DEBUG
+    org.springframework.security: DEBUG
+
+server:
+  # The port to where this Spring Boot application listens to.
+  port: {{ biometric_port }}
+
+# Identity Provider. The metadata_url can (and should) be a https resource
+idp:
+  metadata_url: {{ idensys_proxy.idp_metadata_feed }}
+  verify_host_name: true
+
+# SAML MetaData feed with all allowed SPs. Can (and should) be a https resource
+serviceproviders:
+#  feed: {{ idensys_proxy.sp_metadata_feed }}
+  feed:
+  allow_unknown: false
+
+# idensys
+proxy:
+  # base url
+  base_url: https://idensys.{{ base_domain }}
+  # Entity ID of the SP
+  entity_id: https://idensys.{{ base_domain }}
+  # Private key used to sign the SAML response
+  private_key: {{ idensys_proxy.private_key | vault }}
+  # Public certificate to verify the signature of the SAML response
+  certificate: {{ idensys_proxy.certificate }}
+  # Passphrase of the keystore
+  passphrase: secret
+  # ACS location
+  acs_location: https://idensys.{{ base_domain }}/saml/SSO
+  # duration of metadata cache (1 day)
+  validity_duration_metadata_ms: 86400000
