@@ -13,7 +13,7 @@
 - name: copy the key files for ssl
   copy: src={{ env_name }}/{{ item }} dest=/etc/httpd/keys mode=0644
   with_items:
-    - star.test2.surfconext.nl.pem
+    - star.test.surfconext.nl.pem
 
 - name: copy the non-hanging systemd file
   copy: src=httpd.service dest=/usr/lib/systemd/system mode=0644

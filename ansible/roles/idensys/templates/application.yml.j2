@@ -1,5 +1,5 @@
 logging:
-  config: server.port={{ idensys_port }}
+  config: file://{{ idensys_dir }}/logback.xml
   level:
     idensys: DEBUG
     org.springframework.security: DEBUG
@@ -15,8 +15,7 @@ idp:
 
 # SAML MetaData feed with all allowed SPs. Can (and should) be a https resource
 serviceproviders:
-#  feed: {{ idensys_proxy.sp_metadata_feed }}
-  feed:
+  feed: {{ idensys_proxy.sp_metadata_feed }}
   allow_unknown: false
 
 # idensys

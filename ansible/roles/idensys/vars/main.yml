@@ -2,10 +2,10 @@
 idensys_dir: /opt/idensys
 idensys_group_id: org.openconext
 idensys_artifact: idensys
-idensys_heapsize: 1024m
+idensys_heapsize: 2048m
 idensys_port: 9290
 idensys_user: idensys
 idensys_group: idensys
 idensys_loggers:
   - { name: "idensys", level: "DEBUG" }
-  - { name: "org.springframework", level: "DEBUG" }
+  - { name: "org.springframework.security", level: "DEBUG" }

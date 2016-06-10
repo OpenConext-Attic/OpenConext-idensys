@@ -3,7 +3,8 @@
   become: true
   gather_facts: yes
   roles:
-    - initial
+    - { role: initial, tags: initial }
+    - { role: haveged, tags: haveged }
     - { role: httpd, tags: httpd }
     - { role: java, tags: java }
     - { role: idensys, tags: idensys }
