@@ -71,6 +71,13 @@ idp:
   metadata_url: classpath:saml/idensys.metadata.saml.xml
 ```
 
+## [Service Catalog](#service_catalog)
+The [Service Catalog](https://afsprakenstelsel.etoegang.nl/display/as/Service+catalog) for this Proxy DV can be found at:
+
+[https://idensys.test.surfconext.nl/service/catalog](https://idensys.test.surfconext.nl/service/catalog)
+
+The content is served from [this file](src/main/resources/service_catalog.xml). When you make changes don't forget to replace the Signature.
+
 ## [Testing](#testing)
 There are integration tests that spin off a running application and these can also be run inside the IDE.
 
