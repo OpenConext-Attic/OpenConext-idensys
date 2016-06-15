@@ -139,3 +139,14 @@ ansible-playbook -i "test" -u centos -K idensys.yml
 ```
 
 To only update the Spring Boot jar append `--tags "idensys"`
+
+## [Releases](#releases)
+
+Releases are uploaded to the build server where Ansible picks them up. To upload a new release run:
+
+```bash
+mvn deploy
+```
+
+You will need the configure the username and password for the repositories `openconext-releases` and `openconext-releases` in your
+~/.m2/settings.xml. Use [settings.example.xml](src/test/resources/templates/settings.example.xml) as a template.
