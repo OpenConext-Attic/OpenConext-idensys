@@ -119,10 +119,6 @@ proxy:
   certificate: ${output from cleaning the crt file}
 ```
 
-We also test agains TODO:
-
-keytool -importcert -file idensys.crt  -keystore my.jks -alias idensys //secret
-
 ## [Deployment](#deployment)
 The Idensys application has documented [properties](src/main/resources/application.yml) packaged inside the jar. When deploying
 to a non-local environment ensure you have application.yml properties outside of the packaged jar to override
