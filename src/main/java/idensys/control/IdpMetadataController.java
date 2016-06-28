@@ -3,10 +3,7 @@ package idensys.control;
 import org.joda.time.DateTime;
 import org.opensaml.Configuration;
 import org.opensaml.common.xml.SAMLConstants;
-import org.opensaml.saml2.metadata.EntityDescriptor;
-import org.opensaml.saml2.metadata.IDPSSODescriptor;
-import org.opensaml.saml2.metadata.KeyDescriptor;
-import org.opensaml.saml2.metadata.NameIDFormat;
+import org.opensaml.saml2.metadata.*;
 import org.opensaml.xml.io.Marshaller;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.security.CriteriaSet;
@@ -50,6 +47,9 @@ public class IdpMetadataController {
   @Value("${proxy.validity_duration_metadata_ms}")
   private int validityDurationMetadataMilliseconds;
 
+  @Value("${proxy.base_url}")
+  private String baseUrl;
+
   @RequestMapping(method = RequestMethod.GET, value = "/idp/metadata", produces = "application/xml")
   public String metadata() throws SecurityException, ParserConfigurationException, SignatureException, MarshallingException, TransformerException {
     if (metadata == null || this.validUntil.isBeforeNow()) {
@@ -85,6 +85,11 @@ public class IdpMetadataController {
     idpssoDescriptor.getNameIDFormats().add(nameIDFormat);
 
     idpssoDescriptor.addSupportedProtocol(SAMLConstants.SAML20P_NS);
+
+    SingleSignOnService singleSignService = buildSAMLObject(SingleSignOnService.class, SingleSignOnService.DEFAULT_ELEMENT_NAME);
+    singleSignService.setBinding("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect");
+    singleSignService.setLocation(baseUrl + "/saml/idp/login");
+    idpssoDescriptor.getSingleSignOnServices().add(singleSignService);
 
     X509KeyInfoGeneratorFactory keyInfoGeneratorFactory = new X509KeyInfoGeneratorFactory();
     keyInfoGeneratorFactory.setEmitEntityCertificate(true);
