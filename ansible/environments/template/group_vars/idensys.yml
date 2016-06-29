@@ -1,0 +1,16 @@
+---
+idensys_vhost_name: idensys.example.com
+smtp_server: localhost
+error_mail_to: logs@example.org
+email_noreply: noreply@example.com
+
+  # Maven version
+idensys_version: 0.2-SNAPSHOT
+idensys_proxy:
+  # encrypted
+  private_key: "{{ lookup('file', inventory_dir+'/saml_cert/idensys.key') }}"
+  certificate: "{{ lookup('file', inventory_dir+'/saml_cert/idensys.crt') }}"
+  # https://eherkenning.digidentity-accept.eu/hm/eh19/metadata
+  idp_metadata_feed: classpath:saml/idensys.metadata.saml.xml
+  # https://engine.test2.surfconext.nl/authentication/sp/metadata
+  sp_metadata_feed: classpath:saml/eb.sp.metadata.xml

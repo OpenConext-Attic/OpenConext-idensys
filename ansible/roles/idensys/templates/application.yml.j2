@@ -21,16 +21,16 @@ serviceproviders:
 # idensys
 proxy:
   # base url
-  base_url: https://idensys.{{ base_domain }}
+  base_url: https://{{ idensys_vhost_name }}
   # Entity ID of the SP
-  entity_id: https://idensys.{{ base_domain }}
+  entity_id: https://{{ idensys_vhost_name }}
   # Private key used to sign the SAML response
-  private_key: {{ idensys_proxy.private_key | vault }}
+  private_key: {{ idensys_proxy.private_key | vault(vault_keydir) | depem }}
   # Public certificate to verify the signature of the SAML response
-  certificate: {{ idensys_proxy.certificate }}
+  certificate: {{ idensys_proxy.certificate | depem }}
   # Passphrase of the keystore
   passphrase: secret
   # ACS location
-  acs_location: https://idensys.{{ base_domain }}/saml/SSO
+  acs_location: https://{{ idensys_vhost_name }}/saml/SSO
   # duration of metadata cache (1 day)
   validity_duration_metadata_ms: 86400000

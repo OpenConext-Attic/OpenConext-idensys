@@ -1,0 +1,11 @@
+---
+
+# Location of the keystore directory on the deploy host
+vault_keydir: "{{ inventory_dir }}/idensys-ansible-keystore"
+
+# Timezone
+# Format: IANA tz zone name (e.g. "Europe/Amsterdam")
+timezone: Europe/Amsterdam
+
+maven_repo: https://build.surfconext.nl/repository/public/releases
+maven_snapshot_repo: https://build.surfconext.nl/repository/public/snapshots

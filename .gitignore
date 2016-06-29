@@ -6,3 +6,4 @@ build
 *.iml
 todo.txt
 target
+*.retry

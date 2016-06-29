@@ -1,4 +1,0 @@
----
-timezone: Europe/Amsterdam
-maven_repo: https://build.surfconext.nl/repository/public/releases
-maven_snapshot_repo: https://build.surfconext.nl/repository/public/snapshots

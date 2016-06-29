@@ -7,19 +7,17 @@
   tags: httpd
 
 - name: create dest dir for ssl keys and certs
-  file: name=/etc/httpd/keys state=directory
+  file: name=/etc/httpd/keys state=directory mode=650 owner=root group=root
   tags: httpd
 
-- name: copy the key files for ssl
-  copy: src={{ env_name }}/{{ item }} dest=/etc/httpd/keys mode=0644
-  with_items:
-    - star.test.surfconext.nl.pem
+- name: put the certificate for ssl
+  copy: content="{{ idensys_ssl_cert }}" dest=/etc/httpd/keys/{{ idensys_vhost_name }}.pem mode=0400 owner=root
 
 - name: copy the non-hanging systemd file
-  copy: src=httpd.service dest=/usr/lib/systemd/system mode=0644
+  copy: src=httpd.service dest=/usr/lib/systemd/system mode=0644 owner=root
 
-- name: copy the private key for ssl
-  copy: content="{{ lookup('file', env_name + '/idensys_surfconext_nl.key.encrypted') | vault }}" dest=/etc/httpd/keys/idensys_surfconext_nl.key owner=root group=root mode=0600
+- name: Put the private key for ssl
+  copy: content="{{ idensys_ssl_key | vault(vault_keydir) }}" dest=/etc/httpd/keys/{{ idensys_vhost_name }}.key owner=root group=root mode=0400
 
 - name: copy default config files
   copy: src={{ item }} dest=/etc/httpd/conf.d/{{ item }}
