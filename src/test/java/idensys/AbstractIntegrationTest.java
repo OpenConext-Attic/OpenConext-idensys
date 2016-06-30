@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest(value = {"server.port=0", "spring.profiles.active=dev"})
+@WebIntegrationTest(value = {"server.port=0", "spring.profiles.active=dev,local"})
 public abstract class AbstractIntegrationTest {
 
   protected RestTemplate restTemplate = new TestRestTemplate();

@@ -2,6 +2,7 @@ package idensys.saml;
 
 import org.opensaml.common.binding.SAMLMessageContext;
 import org.opensaml.saml2.core.AuthnRequest;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,13 +24,16 @@ public class IdentityProviderAuthnFilter extends OncePerRequestFilter implements
   private final SAMLMessageHandler samlMessageHandler;
   private final Map<String, ServiceProvider> serviceProviders;
   private final boolean serviceProvidersAllowUnknown;
+  private final Environment environment;
 
   public IdentityProviderAuthnFilter(SAMLMessageHandler samlMessageHandler,
                                      Map<String, ServiceProvider> serviceProviders,
-                                     boolean serviceProvidersAllowUnknown) {
+                                     boolean serviceProvidersAllowUnknown,
+                                     Environment environment) {
     this.samlMessageHandler = samlMessageHandler;
     this.serviceProviders = serviceProviders;
     this.serviceProvidersAllowUnknown = serviceProvidersAllowUnknown;
+    this.environment = environment;
   }
 
   @Override
@@ -49,9 +53,11 @@ public class IdentityProviderAuthnFilter extends OncePerRequestFilter implements
       return;
     }
 
-    //The SAMLRequest parameters are urlEncoded and the extraction expects unencoded parameters
-//    SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(new ParameterDecodingHttpServletRequestWrapper(request));
-    SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(request);
+    //The SAMLRequest parameters are urlEncoded in local modus and the extraction expects unencoded parameters
+    HttpServletRequest inputRequest = environment.acceptsProfiles("local") ?
+      new ParameterDecodingHttpServletRequestWrapper(request) : request;
+
+    SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(inputRequest);
 
     AuthnRequest authnRequest = (AuthnRequest) messageContext.getInboundSAMLMessage();
 

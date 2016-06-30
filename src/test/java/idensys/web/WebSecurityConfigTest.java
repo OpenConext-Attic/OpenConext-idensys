@@ -43,7 +43,7 @@ import static org.junit.Assert.assertTrue;
 
 @WebIntegrationTest(value = {
   "server.port=0",
-  "spring.profiles.active=dev",
+  "spring.profiles.active=dev, local",
   "idp.metadata_url=classpath:saml/idensys.test.metadata.saml.xml",
   "idp.verify_host_name=false"})
 public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {

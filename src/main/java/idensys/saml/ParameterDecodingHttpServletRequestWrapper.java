@@ -2,6 +2,7 @@ package idensys.saml;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 public class ParameterDecodingHttpServletRequestWrapper extends HttpServletRequestWrapper {
@@ -16,9 +17,12 @@ public class ParameterDecodingHttpServletRequestWrapper extends HttpServletReque
     return parameter != null ? decode(parameter) : null;
   }
 
-  @SuppressWarnings("deprecation")
   private String decode(String parameter) {
-    return URLDecoder.decode(parameter);
+    try {
+      return URLDecoder.decode(parameter, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 

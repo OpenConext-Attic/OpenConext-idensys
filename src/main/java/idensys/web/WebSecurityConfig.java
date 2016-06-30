@@ -193,7 +193,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public IdentityProviderAuthnFilter identityProviderAuthnFilter() throws NoSuchAlgorithmException, CertificateException, InvalidKeySpecException, KeyStoreException, IOException, XMLStreamException {
-    return new IdentityProviderAuthnFilter(samlMessageHandler(), serviceProviders, serviceProvidersAllowUnknown);
+    return new IdentityProviderAuthnFilter(samlMessageHandler(), serviceProviders, serviceProvidersAllowUnknown, environment);
   }
 
   private DefaultSecurityFilterChain chain(String pattern, Filter entryPoint) {

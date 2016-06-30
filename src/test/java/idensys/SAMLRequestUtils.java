@@ -121,7 +121,6 @@ public class SAMLRequestUtils {
     messageContext.setRelayState(null);
 
     encoder.encode(messageContext);
-
     return response.getRedirectedUrl();
   }
 

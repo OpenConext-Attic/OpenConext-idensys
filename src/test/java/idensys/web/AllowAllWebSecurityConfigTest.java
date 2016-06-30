@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-@WebIntegrationTest(value = {"server.port=0", "spring.profiles.active=dev", "serviceproviders.allow_unknown=true"})
+@WebIntegrationTest(value = {"server.port=0", "spring.profiles.active=dev,local", "serviceproviders.allow_unknown=true"})
 public class AllowAllWebSecurityConfigTest extends AbstractWebSecurityConfigTest {
 
   @Test
