@@ -50,7 +50,8 @@ public class IdentityProviderAuthnFilter extends OncePerRequestFilter implements
     }
 
     //The SAMLRequest parameters are urlEncoded and the extraction expects unencoded parameters
-    SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(new ParameterDecodingHttpServletRequestWrapper(request));
+//    SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(new ParameterDecodingHttpServletRequestWrapper(request));
+    SAMLMessageContext messageContext = samlMessageHandler.extractSAMLMessageContext(request);
 
     AuthnRequest authnRequest = (AuthnRequest) messageContext.getInboundSAMLMessage();
 
