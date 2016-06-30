@@ -1,0 +1,11 @@
+# Identity Provider. The metadata_url can (and should) be a https resource
+idp:
+  metadata_url: classpath:saml/eb.idp.test2.metadata.saml.xml
+  verify_host_name: true
+#  metadata_url: https://eherkenning.digidentity-accept.eu/hm/eh19/metadata
+
+# SAML MetaData feed with all allowed SPs. Can (and should) be a https resource
+serviceproviders:
+#  feed: https://engine.test2.surfconext.nl/authentication/sp/metadata
+  feed: classpath:saml/eb.sp.test.metadata.saml.xml
+  allow_unknown: false

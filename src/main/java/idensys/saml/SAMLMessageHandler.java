@@ -62,8 +62,6 @@ public class SAMLMessageHandler {
   }
 
   public SAMLMessageContext extractSAMLMessageContext(HttpServletRequest request) {
-    SAMLContextProvider provider = null;
-    //provider.
     BasicSAMLMessageContext messageContext = new BasicSAMLMessageContext();
 
     messageContext.setInboundMessageTransport(new HttpServletRequestAdapter(request));

@@ -97,6 +97,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Value("${serviceproviders.allow_unknown}")
   private boolean serviceProvidersAllowUnknown;
 
+  @Value("${server.port}")
+  private int serverPort;
+
   private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 
   private Map<String, ServiceProvider> serviceProviders;
@@ -298,7 +301,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public SAMLMessageHandler samlMessageHandler() throws NoSuchAlgorithmException, CertificateException, InvalidKeySpecException, KeyStoreException, IOException, XMLStreamException {
     HTTPRedirectDeflateDecoder samlMessageDecoder = new HTTPRedirectDeflateDecoder(parserPool());
-    samlMessageDecoder.setURIComparator(new LenientURIComparator());
+    samlMessageDecoder.setURIComparator(new ProxyURIComparator(this.idensysBaseUrl, "http://localhost:" + this.serverPort));
     return new SAMLMessageHandler(
       keyManager(),
       samlMessageDecoder,
