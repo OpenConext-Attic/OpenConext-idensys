@@ -201,14 +201,10 @@ public class SAMLBuilder {
 
   private static XSString buildAttributeValue(String value) {
     XSStringBuilder stringBuilder = new XSStringBuilder();
+    //we need an AttributeValue and not a XSString and this is how it works apparently - there is no AttributeValueBuilder
     XSString attributeValue = stringBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME);
     attributeValue.setValue(value);
     return attributeValue;
   }
 
-  private static XSString buildXSString(String value) {
-    XSString stringValue = buildSAMLObject(XSString.class, XSString.TYPE_NAME);
-    stringValue.setValue(value);
-    return stringValue;
-  }
 }
