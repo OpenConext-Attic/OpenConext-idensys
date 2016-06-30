@@ -12,6 +12,7 @@ import org.opensaml.xml.io.Marshaller;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.schema.XSAny;
 import org.opensaml.xml.schema.XSString;
+import org.opensaml.xml.schema.impl.XSStringBuilder;
 import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.signature.*;
@@ -186,7 +187,7 @@ public class SAMLBuilder {
         attributeStatement.getAttributes().add(
             buildAttribute(
                 entry.getName(),
-                entry.getValues().stream().map(SAMLBuilder::buildXSString).collect(toList()))));
+                entry.getValues().stream().map(SAMLBuilder::buildAttributeValue).collect(toList()))));
 
     return attributeStatement;
   }
@@ -196,6 +197,13 @@ public class SAMLBuilder {
     attribute.setName(name);
     attribute.getAttributeValues().addAll(values);
     return attribute;
+  }
+
+  private static XSString buildAttributeValue(String value) {
+    XSStringBuilder stringBuilder = new XSStringBuilder();
+    XSString attributeValue = stringBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME);
+    attributeValue.setValue(value);
+    return attributeValue;
   }
 
   private static XSString buildXSString(String value) {
