@@ -26,6 +26,7 @@ import org.opensaml.xml.signature.*;
 import org.opensaml.xml.util.Base64;
 import org.opensaml.xml.validation.ValidationException;
 import org.opensaml.xml.validation.ValidatorSuite;
+import org.springframework.security.saml.context.SAMLContextProvider;
 import org.springframework.security.saml.key.KeyManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,8 @@ public class SAMLMessageHandler {
   }
 
   public SAMLMessageContext extractSAMLMessageContext(HttpServletRequest request) {
+    SAMLContextProvider provider = null;
+    //provider.
     BasicSAMLMessageContext messageContext = new BasicSAMLMessageContext();
 
     messageContext.setInboundMessageTransport(new HttpServletRequestAdapter(request));

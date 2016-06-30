@@ -297,9 +297,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public SAMLMessageHandler samlMessageHandler() throws NoSuchAlgorithmException, CertificateException, InvalidKeySpecException, KeyStoreException, IOException, XMLStreamException {
+    HTTPRedirectDeflateDecoder samlMessageDecoder = new HTTPRedirectDeflateDecoder(parserPool());
+    samlMessageDecoder.setURIComparator(new LenientURIComparator());
     return new SAMLMessageHandler(
       keyManager(),
-      new HTTPRedirectDeflateDecoder(parserPool()),
+      samlMessageDecoder,
       new HTTPPostSimpleSignEncoder(velocityEngine(), "/templates/saml2-post-simplesign-binding.vm", true),
       securityPolicyResolver(),
       idensysEntityId);
