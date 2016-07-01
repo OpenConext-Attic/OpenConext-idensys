@@ -13,14 +13,16 @@ import org.opensaml.xml.security.credential.UsageType;
 import org.opensaml.xml.security.criteria.EntityIDCriteria;
 import org.opensaml.xml.security.keyinfo.KeyInfoGenerator;
 import org.opensaml.xml.security.x509.X509KeyInfoGeneratorFactory;
-import org.opensaml.xml.signature.Signature;
-import org.opensaml.xml.signature.SignatureConstants;
-import org.opensaml.xml.signature.SignatureException;
-import org.opensaml.xml.signature.Signer;
+import org.opensaml.xml.signature.*;
 import org.opensaml.xml.util.XMLHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.saml.key.KeyManager;
+import org.springframework.security.saml.metadata.CachingMetadataManager;
+import org.springframework.security.saml.metadata.ExtendedMetadata;
+import org.springframework.security.saml.metadata.MetadataGenerator;
+import org.springframework.security.saml.util.SAMLUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +43,12 @@ public class IdpMetadataController {
   @Autowired
   private KeyManager keyManager;
 
+  @Autowired
+  private CachingMetadataManager metadataManager;
+
+  @Value("${proxy.base_url}")
+  private String idensysBaseUrl;
+
   @Value("${proxy.entity_id}")
   private String entityId;
 
@@ -50,11 +58,14 @@ public class IdpMetadataController {
   @Value("${proxy.base_url}")
   private String baseUrl;
 
+  @Value("${proxy.key_name}")
+  private String proxyKeyName;
+
   @RequestMapping(method = RequestMethod.GET, value = "/idp/metadata", produces = "application/xml")
   public String metadata() throws SecurityException, ParserConfigurationException, SignatureException, MarshallingException, TransformerException {
-    if (metadata == null || this.validUntil.isBeforeNow()) {
+//    if (metadata == null || this.validUntil.isBeforeNow()) {
       this.metadata = generateMetadata();
-    }
+//    }
     return this.metadata;
   }
 
@@ -65,18 +76,6 @@ public class IdpMetadataController {
     entityDescriptor.setEntityID(entityId);
     entityDescriptor.setID(UUID.randomUUID().toString());
     entityDescriptor.setValidUntil(this.validUntil);
-
-    Signature signature = buildSAMLObject(Signature.class, Signature.DEFAULT_ELEMENT_NAME);
-
-    Credential credential = keyManager.resolveSingle(new CriteriaSet(new EntityIDCriteria(entityId)));
-    signature.setSigningCredential(credential);
-    signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);
-    signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
-
-    entityDescriptor.setSignature(signature);
-
-    Configuration.getMarshallerFactory().getMarshaller(entityDescriptor).marshall(entityDescriptor);
-    Signer.signObject(signature);
 
     IDPSSODescriptor idpssoDescriptor = buildSAMLObject(IDPSSODescriptor.class, IDPSSODescriptor.DEFAULT_ELEMENT_NAME);
 
@@ -95,16 +94,31 @@ public class IdpMetadataController {
     keyInfoGeneratorFactory.setEmitEntityCertificate(true);
     KeyInfoGenerator keyInfoGenerator = keyInfoGeneratorFactory.newInstance();
 
+    Credential credential = keyManager.resolveSingle(new CriteriaSet(new EntityIDCriteria(entityId)));
     KeyDescriptor encKeyDescriptor = buildSAMLObject(KeyDescriptor.class, KeyDescriptor.DEFAULT_ELEMENT_NAME);
     encKeyDescriptor.setUse(UsageType.SIGNING);
+    KeyInfo keyInfo = keyInfoGenerator.generate(credential);
 
-    encKeyDescriptor.setKeyInfo(keyInfoGenerator.generate(credential));
+    KeyName keyName = buildSAMLObject(KeyName.class, KeyName.DEFAULT_ELEMENT_NAME);
+    keyName.setValue(proxyKeyName);
+
+    keyInfo.getKeyNames().add(keyName);
+    encKeyDescriptor.setKeyInfo(keyInfo);
 
     idpssoDescriptor.getKeyDescriptors().add(encKeyDescriptor);
 
     entityDescriptor.getRoleDescriptors().add(idpssoDescriptor);
 
-    return writeEntityDescriptor(entityDescriptor);
+    ExtendedMetadata extendedMetadata = new ExtendedMetadata();
+    extendedMetadata.setIdpDiscoveryEnabled(false);
+    extendedMetadata.setSignMetadata(true);
+    extendedMetadata.setSigningAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256);
+    extendedMetadata.setIdpDiscoveryEnabled(false);
+    extendedMetadata.setSigningKey(entityId);
+    extendedMetadata.setLocal(true);
+
+    return SAMLUtil.getMetadataAsString(metadataManager, keyManager, entityDescriptor, extendedMetadata);
+
   }
 
   private String writeEntityDescriptor(EntityDescriptor entityDescriptor) throws ParserConfigurationException, MarshallingException, TransformerException {

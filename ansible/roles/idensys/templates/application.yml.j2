@@ -34,3 +34,5 @@ proxy:
   acs_location: https://{{ idensys_vhost_name }}/saml/SSO
   # duration of metadata cache (1 day)
   validity_duration_metadata_ms: 86400000
+  # value of the keyName in the KeyDescriptor
+  key_name: {{ idensys_proxy.key_name }}

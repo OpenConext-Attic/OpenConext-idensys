@@ -39,6 +39,8 @@ proxy:
   acs_location: http://localhost:8080/saml/SSO
   # duration of metadata cache (1 day)
   validity_duration_metadata_ms: 86400000
+  # value of the keyName in the KeyDescriptor
+  key_name: whatever-configurable
 
 # You can skip all the key-value pairs below in the overriding application.yml on the classpath
 

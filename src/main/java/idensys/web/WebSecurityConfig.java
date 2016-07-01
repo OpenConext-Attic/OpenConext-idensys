@@ -15,6 +15,7 @@ import org.opensaml.ws.security.provider.BasicSecurityPolicy;
 import org.opensaml.ws.security.provider.StaticSecurityPolicyResolver;
 import org.opensaml.xml.parse.ParserPool;
 import org.opensaml.xml.parse.StaticBasicParserPool;
+import org.opensaml.xml.signature.SignatureConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,6 +100,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Value("${server.port}")
   private int serverPort;
+
+  @Value("${proxy.key_name}")
+  private String proxyKeyName;
 
   private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 
@@ -207,8 +211,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public ExtendedMetadata extendedMetadata() {
     ExtendedMetadata extendedMetadata = new ExtendedMetadata();
     extendedMetadata.setIdpDiscoveryEnabled(false);
-    extendedMetadata.setSignMetadata(false);
+    extendedMetadata.setSignMetadata(true);
     extendedMetadata.setTlsKey(idensysEntityId);
+    extendedMetadata.setSigningAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256);
     return extendedMetadata;
   }
 
@@ -229,7 +234,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     List<MetadataProvider> providers = new ArrayList<>();
     providers.add(identityProvider());
 
-    return new CachingMetadataManager(providers);
+    CachingMetadataManager metadataManager = new CachingMetadataManager(providers);
+    metadataManager.setRefreshCheckInterval(1000 * 60 * 60);
+    return metadataManager;
   }
 
   @Bean
@@ -284,7 +291,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         throw new RuntimeException(e);
       }
     });
-    return new JKSKeyManager(keyStore, Collections.singletonMap(idensysEntityId, idensysPassphrase), idensysEntityId);
+    return new KeyNamedJKSKeyManager(keyStore, Collections.singletonMap(idensysEntityId, idensysPassphrase), idensysEntityId, proxyKeyName);
   }
 
   private Map<String, ServiceProvider> getServiceProviders() throws IOException, XMLStreamException {

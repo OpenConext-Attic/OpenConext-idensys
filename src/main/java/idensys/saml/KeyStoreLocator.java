@@ -52,6 +52,7 @@ public class KeyStoreLocator {
     ArrayList<Certificate> certs = new ArrayList<>();
     certs.add(cert);
 
+
     byte[] privKeyBytes = IOUtils.toByteArray(new ByteArrayInputStream(decodedKey));
 
     KeySpec ks = new PKCS8EncodedKeySpec(privKeyBytes);

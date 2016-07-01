@@ -14,3 +14,5 @@ idensys_proxy:
   idp_metadata_feed: classpath:saml/idensys.metadata.saml.xml
   # https://engine.test2.surfconext.nl/authentication/sp/metadata
   sp_metadata_feed: classpath:saml/eb.sp.metadata.xml
+  # value of the keyName in the KeyDescriptor
+  key_name: whatever-configurable
