@@ -18,13 +18,6 @@ public class KeyNamedJKSKeyManager extends JKSKeyManager {
     this.configuredKeyName = configuredKeyName;
   }
 
-  @Override
-  public Credential resolveSingle(CriteriaSet criteriaSet) throws SecurityException {
-    Credential credential = super.resolveSingle(criteriaSet);
-    return credential;
-
-  }
-
   public Credential getCredential(String keyName) {
     Credential credential = super.getCredential(keyName);
     if (credential instanceof BasicX509Credential) {
