@@ -63,9 +63,9 @@ public class IdpMetadataController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/idp/metadata", produces = "application/xml")
   public String metadata() throws SecurityException, ParserConfigurationException, SignatureException, MarshallingException, TransformerException {
-//    if (metadata == null || this.validUntil.isBeforeNow()) {
+    if (metadata == null || this.validUntil.isBeforeNow()) {
       this.metadata = generateMetadata();
-//    }
+    }
     return this.metadata;
   }
 
@@ -119,12 +119,6 @@ public class IdpMetadataController {
 
     return SAMLUtil.getMetadataAsString(metadataManager, keyManager, entityDescriptor, extendedMetadata);
 
-  }
-
-  private String writeEntityDescriptor(EntityDescriptor entityDescriptor) throws ParserConfigurationException, MarshallingException, TransformerException {
-    Marshaller marshaller = Configuration.getMarshallerFactory().getMarshaller(entityDescriptor);
-    Element element = marshaller.marshall(entityDescriptor);
-    return XMLHelper.nodeToString(element);
   }
 
 }
