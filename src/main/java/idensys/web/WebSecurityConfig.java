@@ -104,6 +104,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Value("${proxy.key_name}")
   private String proxyKeyName;
 
+  @Value("${proxy.metadata_resource_sp}")
+  private Resource metadataResourceSp;
+
   private DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
 
   private Map<String, ServiceProvider> serviceProviders;
@@ -261,9 +264,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public MetadataGenerator metadataGenerator() throws NoSuchAlgorithmException, CertificateException, InvalidKeySpecException, KeyStoreException, IOException, XMLStreamException {
-    MetadataGenerator metadataGenerator = new MetadataGenerator();
-    metadataGenerator.setEntityId(idensysEntityId);
-    metadataGenerator.setEntityBaseURL(idensysBaseUrl);
+    ResourceMetadataProvider resourceMetadataProvider = new ResourceMetadataProvider(this.metadataResourceSp);
+    resourceMetadataProvider.setParserPool(parserPool());
+
+    MetadataGenerator metadataGenerator = new CustomMetadataGenerator(resourceMetadataProvider);
+//    metadataGenerator.setEntityId(idensysEntityId);
+//    metadataGenerator.setId("urn_etoegang_DV_00000003300907770000_entities_0001");
+//    metadataGenerator.setEntityBaseURL(idensysBaseUrl);
     metadataGenerator.setExtendedMetadata(extendedMetadata());
     metadataGenerator.setIncludeDiscoveryExtension(false);
     metadataGenerator.setKeyManager(keyManager());

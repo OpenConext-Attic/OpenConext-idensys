@@ -74,8 +74,9 @@ public class IdpMetadataController {
 
     EntityDescriptor entityDescriptor = buildSAMLObject(EntityDescriptor.class, EntityDescriptor.DEFAULT_ELEMENT_NAME);
     entityDescriptor.setEntityID(entityId);
-    entityDescriptor.setID(UUID.randomUUID().toString());
+    entityDescriptor.setID("urn_etoegang_DV_00000003300907770000_entities_0001");
     entityDescriptor.setValidUntil(this.validUntil);
+
 
     IDPSSODescriptor idpssoDescriptor = buildSAMLObject(IDPSSODescriptor.class, IDPSSODescriptor.DEFAULT_ELEMENT_NAME);
 

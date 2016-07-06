@@ -36,3 +36,5 @@ proxy:
   validity_duration_metadata_ms: 86400000
   # value of the keyName in the KeyDescriptor
   key_name: {{ idensys_proxy.key_name }}
+  # the resource location of the metadata for the SP
+  metadata_resource_sp: file://{{ idensys_dir }}/idensys.proxy.sp.metadata.xml

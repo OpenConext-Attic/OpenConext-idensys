@@ -41,6 +41,16 @@
   tags: deploy
   notify: restart idensys
 
+- name: copy metadata
+  template:
+    src: idensys.proxy.sp.metadata.xml.j2
+    dest: "{{ idensys_dir }}/idensys.proxy.sp.metadata.xml"
+    owner: "{{ idensys_user }}"
+    group: "{{ idensys_group }}"
+    mode: 0400
+  tags: deploy
+  notify: restart idensys
+
 - name: copy application config
   template:
     src: idensys.conf.j2
