@@ -16,3 +16,7 @@ idensys_proxy:
   sp_metadata_feed: classpath:saml/eb.sp.metadata.xml
   # value of the keyName in the KeyDescriptor
   key_name: whatever-configurable
+  # Format: urn:etoegang:DV:<OIN>:entities:0001
+  # To get an <OIN> from a KVK number use:
+  # OIN = "00000003" + <KVK number> "0000"
+  enity_id: urn:etoegang:DV:00000003kkkkkkkk0000:entities:0001

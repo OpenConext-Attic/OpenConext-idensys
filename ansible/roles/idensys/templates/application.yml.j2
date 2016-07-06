@@ -23,7 +23,7 @@ proxy:
   # base url
   base_url: https://{{ idensys_vhost_name }}
   # Entity ID of the SP
-  entity_id: https://{{ idensys_vhost_name }}
+  entity_id: {{ idensys_proxy.enity_id }}
   # Private key used to sign the SAML response
   private_key: {{ idensys_proxy.private_key | vault(vault_keydir) | depem }}
   # Public certificate to verify the signature of the SAML response
