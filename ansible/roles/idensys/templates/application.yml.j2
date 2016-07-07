@@ -7,6 +7,9 @@ logging:
 server:
   # The port to where this Spring Boot application listens to.
   port: {{ idensys_port }}
+  session:
+    cookie:
+      secure: true
 
 # Identity Provider. The metadata_url can (and should) be a https resource
 idp:
