@@ -5,7 +5,7 @@ error_mail_to: logs@example.org
 email_noreply: noreply@example.com
 
   # Maven version
-idensys_version: 0.2-SNAPSHOT
+idensys_version: 1.0.0
 idensys_proxy:
   # encrypted
   private_key: "{{ lookup('file', inventory_dir+'/saml_cert/idensys.key') }}"
