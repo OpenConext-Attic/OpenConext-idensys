@@ -99,7 +99,9 @@ public class SAMLConfig {
 
   @Bean
   public SAMLDefaultLogger samlLogger() {
-    return new SAMLDefaultLogger();
+    SAMLDefaultLogger logger = new SAMLDefaultLogger();
+    logger.setLogMessages(true);
+    return logger;
   }
 
   @Bean
