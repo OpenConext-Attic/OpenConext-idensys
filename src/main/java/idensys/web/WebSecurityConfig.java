@@ -126,7 +126,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     WebSSOProfileOptions webSSOProfileOptions = new WebSSOProfileOptions();
     webSSOProfileOptions.setIncludeScoping(false);
     webSSOProfileOptions.setBinding("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect");
-    webSSOProfileOptions.setAuthnContexts(Collections.singletonList("urn:etoegang:core:assurance-class:loa1"));
+    webSSOProfileOptions.setAuthnContexts(Collections.singletonList("urn:etoegang:core:assurance-class:loa3"));
     webSSOProfileOptions.setAuthnContextComparison(AuthnContextComparisonTypeEnumeration.MINIMUM);
 
     SAMLEntryPoint samlEntryPoint = new SAMLEntryPoint();
