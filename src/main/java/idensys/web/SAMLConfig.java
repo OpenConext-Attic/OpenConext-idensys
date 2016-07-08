@@ -2,6 +2,7 @@ package idensys.web;
 
 import idensys.saml.ConfigurableArtifactResolutionProfile;
 import idensys.saml.CustomSAMLBootstrap;
+import idensys.saml.CustomWebSSOProfile;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.velocity.app.VelocityEngine;
@@ -113,7 +114,7 @@ public class SAMLConfig {
 
   @Bean
   public WebSSOProfile webSSOprofile() {
-    return new WebSSOProfileImpl();
+    return new CustomWebSSOProfile();
   }
 
   @Bean

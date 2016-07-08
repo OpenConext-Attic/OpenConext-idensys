@@ -6,6 +6,7 @@ import org.opensaml.common.binding.security.IssueInstantRule;
 import org.opensaml.common.binding.security.MessageReplayRule;
 import org.opensaml.saml2.binding.decoding.HTTPRedirectDeflateDecoder;
 import org.opensaml.saml2.binding.encoding.HTTPPostSimpleSignEncoder;
+import org.opensaml.saml2.core.AuthnContextComparisonTypeEnumeration;
 import org.opensaml.saml2.metadata.provider.MetadataProvider;
 import org.opensaml.saml2.metadata.provider.MetadataProviderException;
 import org.opensaml.util.storage.MapBasedStorageService;
@@ -125,6 +126,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     WebSSOProfileOptions webSSOProfileOptions = new WebSSOProfileOptions();
     webSSOProfileOptions.setIncludeScoping(false);
     webSSOProfileOptions.setBinding("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect");
+    webSSOProfileOptions.setAuthnContexts(Collections.singletonList("urn:etoegang:core:assurance-class:loa1"));
+    webSSOProfileOptions.setAuthnContextComparison(AuthnContextComparisonTypeEnumeration.MINIMUM);
 
     SAMLEntryPoint samlEntryPoint = new SAMLEntryPoint();
     samlEntryPoint.setDefaultProfileOptions(webSSOProfileOptions);

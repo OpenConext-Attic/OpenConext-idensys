@@ -106,7 +106,6 @@ public class WebSecurityConfigTest extends AbstractWebSecurityConfigTest {
     //This is the AuthnRequest from the idensys to the real IdP
     String saml = decodeSamlRedirect(response);
 
-    assertTrue(saml.contains("AssertionConsumerServiceURL=\"http://localhost:8080/saml/SSO\""));
     assertTrue(saml.contains("Destination=\"https://eid.digidentity-accept.eu/hm/eh19/dv_hm\""));
 
     String samlResponse = getIdPSAMLResponse(saml);
