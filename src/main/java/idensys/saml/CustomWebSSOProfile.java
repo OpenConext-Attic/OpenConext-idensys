@@ -10,7 +10,7 @@ import org.springframework.security.saml.websso.WebSSOProfileImpl;
 public class CustomWebSSOProfile extends WebSSOProfileImpl {
 
   protected void buildReturnAddress(AuthnRequest request, AssertionConsumerService service) throws MetadataProviderException {
-    // AssertionConsumerServiceURL + ProtocolBinding is mutually exclusive with AssertionConsumerServiceIndex, we use the second option here
-    request.setAssertionConsumerServiceIndex(1);
+    super.buildReturnAddress(request, service);
+    request.setAttributeConsumingServiceIndex(1);
   }
 }
