@@ -10,6 +10,9 @@ server:
   port: 8080
   # The context path of the server. You can skip this value in the overriding application.yml on the classpath
   contextPath:
+  session:
+    cookie:
+      secure: false
 
 # Identity Provider. The metadata_url can (and should) be a https resource
 idp:

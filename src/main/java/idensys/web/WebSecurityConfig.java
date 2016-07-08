@@ -268,9 +268,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     resourceMetadataProvider.setParserPool(parserPool());
 
     MetadataGenerator metadataGenerator = new CustomMetadataGenerator(resourceMetadataProvider);
-//    metadataGenerator.setEntityId(idensysEntityId);
-//    metadataGenerator.setId("urn_etoegang_DV_00000003300907770000_entities_0001");
-//    metadataGenerator.setEntityBaseURL(idensysBaseUrl);
     metadataGenerator.setExtendedMetadata(extendedMetadata());
     metadataGenerator.setIncludeDiscoveryExtension(false);
     metadataGenerator.setKeyManager(keyManager());
