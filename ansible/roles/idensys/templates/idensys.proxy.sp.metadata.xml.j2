@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
                      xmlns:eme="urn:etoegang:1.9:metadata-extension" xmlns:xml="http://www.w3.org/XML/1998/namespace"
-                     ID="urn_etoegang_DV_00000003300907770000_entities_0001"
-                     entityID="urn:etoegang:DV:00000003300907770000:entities:0001" eme:version="1.9">
+                     ID="{{ idensys_proxy.enity_id | replace(':', '_') }}"
+                     entityID="{{ idensys_proxy.enity_id }}" eme:version="1.9">
   <md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="true"
                       protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
     <md:KeyDescriptor use="signing">
       <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
-        <ds:KeyName>64:A5:D8:C7:50:8E:BA:E7:3C:56:3F:80:A6:CB:04:25:15:82:E8:E6</ds:KeyName>
+        <ds:KeyName>{{ idensys_proxy.key_name }}</ds:KeyName>
         <ds:X509Data>
-          <ds:X509Certificate>MIIGQTCCBCmgAwIBAgIEEAAE/TANBgkqhkiG9w0BAQsFADBPMQswCQYDVQQGEwJOTDEZMBcGA1UE
-            ChMQRGlnaWRlbnRpdHkgQi5WLjElMCMGA1UEAxMcRGlnaWRlbnRpdHkgU2VydmljZXMgQ0EgLSBH
-            MjAeFw0xNjA2MjQwNzM1NTBaFw0xOTA2MjUwNzM1NTBaMGAxCzAJBgNVBAYTAk5MMRMwEQYDVQQK
-            DApTVVJGbmV0IGJ2MRswGQYDVQQLDBJUcnVzdCBhbmQgU2VjdXJpdHkxHzAdBgNVBAMMFnBraW92
-            ZXJoZWlkLnN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCokoqRrkv4
-            h5vRJgfnsq450dZMQgnD/brE5apta/oy/80IHxlZYfWVTKRml5PqPlISXXIxyqZcVKguTs6+1LdL
-            wkUXmyONEKtmBjw+vYTPBbHQRtGKiZ4gNVF9UMAxBq+huwDdFExPkvb0PhCAym8wituv1RgyH4Sl
-            CfSOviQYtOD2xQFsdn5lGIKbzXpTgYmKyRhW7XEdP1LUDq1XPRcsJqaGtqYMVQv1ggsSFHjtEr5m
-            VwPhJLk2xdnhquRHhAWbmBZ+Y/saOVHkYRKA3IXJomIcLh7YNsu+NEXtu+EVC+5XH/8lfKd9SwyZ
-            X21Zt4e/lz775ju6BxfoqEWsK2KdAgMBAAGjggISMIICDjAfBgNVHSMEGDAWgBSbY4VPsQlVEWoa
-            5z4eHQBJ25bzzTBHBggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAGGK2h0dHA6Ly9vY3NwLmRpZ2lk
-            ZW50aXR5LmV1L0w0L3NlcnZpY2VzL29jc3AwDgYDVR0PAQH/BAQDAgOoMB0GA1UdJQQWMBQGCCsG
-            AQUFBwMBBggrBgEFBQcDAjCB6gYDVR0gBIHiMIHfMIHcBgpghBABh2sBAgUGMIHNMC8GCCsGAQUF
-            BwIBFiNodHRwOi8vcGtpLmRpZ2lkZW50aXR5LmV1L3ZhbGlkYXRpZTCBmQYIKwYBBQUHAgIwgYwM
-            gYlIZXQgdG9lcGFzc2luZ3NnZWJpZWQgdmFuIGRpdCBjZXJ0aWZpY2FhdCBpcyBjb25mb3JtIGRl
-            IGFsZ2VtZW5lIHZvb3J3YWFyZGVuIGVuIGNlcnRpZmljYXRlIHByYWN0aWNlIHN0YXRlbWVudCBu
-            aXZlYXUgTDQgdmFuIERpZ2lkZW50aXR5LjAdBgNVHQ4EFgQUZKXYx1COuuc8Vj+ApssEJRWC6OYw
-            RAYDVR0fBD0wOzA5oDegNYYzaHR0cDovL3BraS5kaWdpZGVudGl0eS5ldS9MNC9zZXJ2aWNlcy9s
-            YXRlc3RDUkwuY3JsMCEGA1UdEQQaMBiCFnBraW92ZXJoZWlkLnN1cmZuZXQubmwwDQYJKoZIhvcN
-            AQELBQADggIBAAG8K2mJIFMyxLKActKmzMy9CsAuFiPTMf24eZgSNdvEFtK53TRlm4JGlMWzRS2R
-            EtsWv3byjgHvswVV7GM/P0yayDFZ8qijBZtAy7k5jCRx36mWW7N8QCoThFBQRSQeNgoUenmwfZhW
-            /Nw5xeMjCtxIV1UIzJ9EldBja8Hewu5mAXYjeili4h1UE6U7NwoFZGTRGPBoGTGcvThy3d4/h7vy
-            ekdAFUMRHXSZyr3ak+Jlxt5GiVqCv0r7aN63SpKlqYPYVwrfHGo0v5Cz/knRVh+GsE/SVNfiWWe2
-            b0vWNiAPo/7fQhGLYz7V3hBSS4Q1HGQMsACiY64GaipaRWgXqDJlSADD2h+ro4ca1ZIWkdhxHKv+
-            mcnHaNRdwjPjcN7kLneDQL1ukqbDDiGLKGcqOtP4MM3bTRByhYXws8wa5NNY0PCqS1qs29vnpHBK
-            Dbwu3Pb1ZnziJ/Ukgv4YMWoQbNKurP2QwJJqlQl6wsTCoNzJ51IS0xcR+NT3NZKfoys03qYAytHw
-            gilxbjeaRoks4LxajmU8uozJq3zPyR6jIBcjLxFqD8sQsVbW8gZ6VxRUBocKJOUIia9aRegsX8am
-            d7UZoHZLCInFCnZn/IcKIJGR3NFuW9vJ/mScHBRMJg06tQrQPEyxStwoTGz2LayQAto3SVt0S9Os
-            aMgJEHZlx3Kt
+          <ds:X509Certificate>{{ idensys_proxy.certificate | depem }}
           </ds:X509Certificate>
         </ds:X509Data>
       </ds:KeyInfo>
@@ -46,35 +18,7 @@
       <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
         <ds:KeyName>64:A5:D8:C7:50:8E:BA:E7:3C:56:3F:80:A6:CB:04:25:15:82:E8:E6</ds:KeyName>
         <ds:X509Data>
-          <ds:X509Certificate>MIIGQTCCBCmgAwIBAgIEEAAE/TANBgkqhkiG9w0BAQsFADBPMQswCQYDVQQGEwJOTDEZMBcGA1UE
-            ChMQRGlnaWRlbnRpdHkgQi5WLjElMCMGA1UEAxMcRGlnaWRlbnRpdHkgU2VydmljZXMgQ0EgLSBH
-            MjAeFw0xNjA2MjQwNzM1NTBaFw0xOTA2MjUwNzM1NTBaMGAxCzAJBgNVBAYTAk5MMRMwEQYDVQQK
-            DApTVVJGbmV0IGJ2MRswGQYDVQQLDBJUcnVzdCBhbmQgU2VjdXJpdHkxHzAdBgNVBAMMFnBraW92
-            ZXJoZWlkLnN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCokoqRrkv4
-            h5vRJgfnsq450dZMQgnD/brE5apta/oy/80IHxlZYfWVTKRml5PqPlISXXIxyqZcVKguTs6+1LdL
-            wkUXmyONEKtmBjw+vYTPBbHQRtGKiZ4gNVF9UMAxBq+huwDdFExPkvb0PhCAym8wituv1RgyH4Sl
-            CfSOviQYtOD2xQFsdn5lGIKbzXpTgYmKyRhW7XEdP1LUDq1XPRcsJqaGtqYMVQv1ggsSFHjtEr5m
-            VwPhJLk2xdnhquRHhAWbmBZ+Y/saOVHkYRKA3IXJomIcLh7YNsu+NEXtu+EVC+5XH/8lfKd9SwyZ
-            X21Zt4e/lz775ju6BxfoqEWsK2KdAgMBAAGjggISMIICDjAfBgNVHSMEGDAWgBSbY4VPsQlVEWoa
-            5z4eHQBJ25bzzTBHBggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAGGK2h0dHA6Ly9vY3NwLmRpZ2lk
-            ZW50aXR5LmV1L0w0L3NlcnZpY2VzL29jc3AwDgYDVR0PAQH/BAQDAgOoMB0GA1UdJQQWMBQGCCsG
-            AQUFBwMBBggrBgEFBQcDAjCB6gYDVR0gBIHiMIHfMIHcBgpghBABh2sBAgUGMIHNMC8GCCsGAQUF
-            BwIBFiNodHRwOi8vcGtpLmRpZ2lkZW50aXR5LmV1L3ZhbGlkYXRpZTCBmQYIKwYBBQUHAgIwgYwM
-            gYlIZXQgdG9lcGFzc2luZ3NnZWJpZWQgdmFuIGRpdCBjZXJ0aWZpY2FhdCBpcyBjb25mb3JtIGRl
-            IGFsZ2VtZW5lIHZvb3J3YWFyZGVuIGVuIGNlcnRpZmljYXRlIHByYWN0aWNlIHN0YXRlbWVudCBu
-            aXZlYXUgTDQgdmFuIERpZ2lkZW50aXR5LjAdBgNVHQ4EFgQUZKXYx1COuuc8Vj+ApssEJRWC6OYw
-            RAYDVR0fBD0wOzA5oDegNYYzaHR0cDovL3BraS5kaWdpZGVudGl0eS5ldS9MNC9zZXJ2aWNlcy9s
-            YXRlc3RDUkwuY3JsMCEGA1UdEQQaMBiCFnBraW92ZXJoZWlkLnN1cmZuZXQubmwwDQYJKoZIhvcN
-            AQELBQADggIBAAG8K2mJIFMyxLKActKmzMy9CsAuFiPTMf24eZgSNdvEFtK53TRlm4JGlMWzRS2R
-            EtsWv3byjgHvswVV7GM/P0yayDFZ8qijBZtAy7k5jCRx36mWW7N8QCoThFBQRSQeNgoUenmwfZhW
-            /Nw5xeMjCtxIV1UIzJ9EldBja8Hewu5mAXYjeili4h1UE6U7NwoFZGTRGPBoGTGcvThy3d4/h7vy
-            ekdAFUMRHXSZyr3ak+Jlxt5GiVqCv0r7aN63SpKlqYPYVwrfHGo0v5Cz/knRVh+GsE/SVNfiWWe2
-            b0vWNiAPo/7fQhGLYz7V3hBSS4Q1HGQMsACiY64GaipaRWgXqDJlSADD2h+ro4ca1ZIWkdhxHKv+
-            mcnHaNRdwjPjcN7kLneDQL1ukqbDDiGLKGcqOtP4MM3bTRByhYXws8wa5NNY0PCqS1qs29vnpHBK
-            Dbwu3Pb1ZnziJ/Ukgv4YMWoQbNKurP2QwJJqlQl6wsTCoNzJ51IS0xcR+NT3NZKfoys03qYAytHw
-            gilxbjeaRoks4LxajmU8uozJq3zPyR6jIBcjLxFqD8sQsVbW8gZ6VxRUBocKJOUIia9aRegsX8am
-            d7UZoHZLCInFCnZn/IcKIJGR3NFuW9vJ/mScHBRMJg06tQrQPEyxStwoTGz2LayQAto3SVt0S9Os
-            aMgJEHZlx3Kt
+          <ds:X509Certificate>{{ idensys_proxy.certificate | depem }}
           </ds:X509Certificate>
         </ds:X509Data>
       </ds:KeyInfo>
@@ -85,23 +29,23 @@
     <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
     <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</md:NameIDFormat>
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
-                                 Location="https://idensys.test.surfconext.nl/saml/SSO" index="0" isDefault="true"/>
+                                 Location="https://{{ idensys_vhost_name }}/saml/SSO" index="0" isDefault="true"/>
     <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"
-                                 Location="https://idensys.test.surfconext.nl/saml/SSO" index="1"/>
+                                 Location="https://{{ idensys_vhost_name }}/saml/SSO" index="1"/>
     <md:AttributeConsumingService index="1">
-      <md:ServiceName xml:lang="nl">SURFnet Idensys TEST</md:ServiceName>
-      <md:RequestedAttribute Name="urn:etoegang:DV:00000003300907770000:services:0001"/>
+      <md:ServiceName xml:lang="nl">{{ idensys_proxy.service_name }}</md:ServiceName>
+      <md:RequestedAttribute Name="{{ idensys_proxy.service_id }}"/>
     </md:AttributeConsumingService>
   </md:SPSSODescriptor>
   <md:Organization>
-        <md:OrganizationName xml:lang="nl">SURFnet B.V.</md:OrganizationName>
-        <md:OrganizationDisplayName xml:lang="nl">SURFnet</md:OrganizationDisplayName>
-        <md:OrganizationURL xml:lang="nl">http://www.surfnet.nl</md:OrganizationURL>
+        <md:OrganizationName xml:lang="nl">{{ idensys_proxy.organization_name }}</md:OrganizationName>
+        <md:OrganizationDisplayName xml:lang="nl">{{ idensys_proxy.organization_display_name }}</md:OrganizationDisplayName>
+        <md:OrganizationURL xml:lang="nl">{{ idensys_proxy.organization_url }}</md:OrganizationURL>
       </md:Organization>
       <md:ContactPerson contactType="technical">
-        <md:GivenName>SURFconext</md:GivenName>
-        <md:SurName>Support</md:SurName>
-        <md:EmailAddress>support@surfconext.nl</md:EmailAddress>
-        <md:TelephoneNumber>+31887873000</md:TelephoneNumber>
+        <md:GivenName>{{ idensys_proxy.technical_contact_givenname }}</md:GivenName>
+        <md:SurName>{{ idensys_proxy.technical_contact_surname }}</md:SurName>
+        <md:EmailAddress>{{ idensys_proxy.technical_contact_email }}</md:EmailAddress>
+        <md:TelephoneNumber>{{ idensys_proxy.technical_contact_telephone }}</md:TelephoneNumber>
       </md:ContactPerson>
 </md:EntityDescriptor>

@@ -9,8 +9,8 @@ idensys_version: 0.2-SNAPSHOT
 idensys_proxy:
   # encrypted
   private_key: "{{ lookup('file', inventory_dir+'/saml_cert/idensys.key') }}"
-  certificate: "{{ lookup('file', inventory_dir+'/saml_cert/idensys.crt') }}"
-  # https://eherkenning.digidentity-accept.eu/hm/eh19/metadata
+  certificate: "{{ lookup('file', inventory_dir+'/saml_cert/idensys.crt')}}"
+  # https://eid.digidentity-preproduction.eu/hm/eh19/metadata
   idp_metadata_feed: classpath:saml/idensys.metadata.saml.xml
   # https://engine.test2.surfconext.nl/authentication/sp/metadata
   sp_metadata_feed: classpath:saml/eb.sp.metadata.xml
@@ -20,3 +20,13 @@ idensys_proxy:
   # To get an <OIN> from a KVK number use:
   # OIN = "00000003" + <KVK number> "0000"
   enity_id: urn:etoegang:DV:00000003kkkkkkkk0000:entities:0001
+  # Format: urn:etoegang:DV:<OIN>:services:0001
+  service_id: urn:etoegang:DV:00000003kkkkkkkk0000:services:0001
+  service_name: Test Service
+  organization_name: ACME Inc.
+  organization_disaplay_name: ACME
+  organization_url: http://www.example.org
+  technical_contact_givenname: John
+  technical_contact_surname: Doe
+  technical_contact_email: jorn.doe@acme.org
+  technical_contact_telephone: 555-12345
