@@ -1,6 +1,7 @@
 package idensys.web;
 
 import idensys.saml.ConfigurableArtifactResolutionProfile;
+import idensys.saml.CustomHTTPSOAP11Binding;
 import idensys.saml.CustomSAMLBootstrap;
 import idensys.saml.CustomWebSSOProfile;
 import org.apache.commons.httpclient.HttpClient;
@@ -33,6 +34,9 @@ public class SAMLConfig {
   @Value("${idp.verify_host_name}")
   private boolean verifyHostName;
 
+  @Value("${proxy.key_name}")
+  private String proxyKeyName;
+
   @Bean
   public MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager() {
     return new MultiThreadedHttpConnectionManager();
@@ -51,8 +55,8 @@ public class SAMLConfig {
 
   @Bean
   @Autowired
-  public HTTPSOAP11Binding soapBinding(ParserPool parserPool) {
-    return new HTTPSOAP11Binding(parserPool);
+  public HTTPSOAP11Binding httpSOAP11Binding(ParserPool parserPool) {
+    return new CustomHTTPSOAP11Binding(parserPool, proxyKeyName);
   }
 
   @Bean
@@ -66,12 +70,6 @@ public class SAMLConfig {
   @Autowired
   public HTTPRedirectDeflateBinding httpRedirectDeflateBinding(ParserPool parserPool) {
     return new HTTPRedirectDeflateBinding(parserPool);
-  }
-
-  @Bean
-  @Autowired
-  public HTTPSOAP11Binding httpSOAP11Binding(ParserPool parserPool) {
-    return new HTTPSOAP11Binding(parserPool);
   }
 
   @Bean
@@ -126,7 +124,7 @@ public class SAMLConfig {
 
   private ArtifactResolutionProfile artifactResolutionProfile(ParserPool parserPool, MetadataManager metadataManager) {
     ArtifactResolutionProfileImpl artifactResolutionProfile = new ConfigurableArtifactResolutionProfile(httpClient(), verifyHostName);
-    artifactResolutionProfile.setProcessor(new SAMLProcessorImpl(soapBinding(parserPool)));
+    artifactResolutionProfile.setProcessor(new SAMLProcessorImpl(httpSOAP11Binding(parserPool)));
     artifactResolutionProfile.setMetadata(metadataManager);
     return artifactResolutionProfile;
   }
