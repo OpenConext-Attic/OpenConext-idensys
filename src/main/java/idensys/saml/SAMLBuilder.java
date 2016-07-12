@@ -2,12 +2,15 @@ package idensys.saml;
 
 import org.joda.time.DateTime;
 import org.opensaml.Configuration;
+import org.opensaml.common.SAMLObject;
 import org.opensaml.saml2.core.*;
+import org.opensaml.saml2.encryption.Decrypter;
 import org.opensaml.saml2.metadata.EntityDescriptor;
 import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.XMLObjectBuilderFactory;
+import org.opensaml.xml.encryption.DecryptionException;
 import org.opensaml.xml.io.Marshaller;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.schema.XSAny;
@@ -17,6 +20,9 @@ import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.signature.*;
 import org.opensaml.xml.util.XMLHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.saml.context.SAMLMessageContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
@@ -32,6 +38,8 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 public class SAMLBuilder {
+
+  private static final Logger LOG = LoggerFactory.getLogger(SAMLBuilder.class);
 
   private static final XMLObjectBuilderFactory builderFactory = Configuration.getBuilderFactory();
 
@@ -98,7 +106,7 @@ public class SAMLBuilder {
     Assertion assertion = buildSAMLObject(Assertion.class, Assertion.DEFAULT_ELEMENT_NAME);
 
     if (status.getStatusCode().getValue().equals(StatusCode.SUCCESS_URI)) {
-      Subject subject = buildSubject(principal.getNameID(), principal.getNameIDType(),principal.getAssertionConsumerServiceURL(), principal.getRequestID());
+      Subject subject = buildSubject(principal.getNameID(), principal.getNameIDType(), principal.getAssertionConsumerServiceURL(), principal.getRequestID());
       assertion.setSubject(subject);
     }
 
@@ -139,7 +147,7 @@ public class SAMLBuilder {
     Signer.signObject(signature);
   }
 
-  public static Optional<String> getStringValueFromXMLObject(XMLObject xmlObj) {
+  public static Optional<String> getStringValueFromXMLObject(XMLObject xmlObj, SAMLMessageContext context) {
     if (xmlObj instanceof XSString) {
       return Optional.of(((XSString) xmlObj).getValue());
     } else if (xmlObj instanceof XSAny) {
@@ -154,6 +162,18 @@ public class SAMLBuilder {
         if (xmlObject instanceof NameID) {
           NameID nameID = (NameID) xmlObject;
           return Optional.of(nameID.getValue());
+        } else if (xmlObject instanceof EncryptedID) {
+          EncryptedID encrypted = (EncryptedID) xmlObject;
+          Decrypter decrypter = context.getLocalDecrypter();
+          try {
+            SAMLObject samlObject = decrypter.decrypt(encrypted);
+            if (samlObject instanceof NameID) {
+              NameID nameID = (NameID) samlObject;
+              return Optional.of(nameID.getValue());
+            }
+          } catch (DecryptionException e) {
+            throw new RuntimeException(e);
+          }
         }
       }
     }
@@ -184,10 +204,10 @@ public class SAMLBuilder {
     AttributeStatement attributeStatement = buildSAMLObject(AttributeStatement.class, AttributeStatement.DEFAULT_ELEMENT_NAME);
 
     attributes.forEach(entry ->
-        attributeStatement.getAttributes().add(
-            buildAttribute(
-                entry.getName(),
-                entry.getValues().stream().map(SAMLBuilder::buildAttributeValue).collect(toList()))));
+      attributeStatement.getAttributes().add(
+        buildAttribute(
+          entry.getName(),
+          entry.getValues().stream().map(SAMLBuilder::buildAttributeValue).collect(toList()))));
 
     return attributeStatement;
   }

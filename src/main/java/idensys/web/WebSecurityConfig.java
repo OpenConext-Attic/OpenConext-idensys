@@ -117,7 +117,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     SAMLAuthenticationProvider samlAuthenticationProvider = new ProxySAMLAuthenticationProvider();
     samlAuthenticationProvider.setUserDetails(new DefaultSAMLUserDetailsService());
     samlAuthenticationProvider.setForcePrincipalAsString(false);
-    samlAuthenticationProvider.setExcludeCredential(true);
+    samlAuthenticationProvider.setExcludeCredential(false);
     return samlAuthenticationProvider;
   }
 

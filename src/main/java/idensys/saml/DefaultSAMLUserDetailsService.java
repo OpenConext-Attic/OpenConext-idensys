@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.saml.SAMLCredential;
+import org.springframework.security.saml.context.SAMLMessageContext;
 import org.springframework.security.saml.userdetails.SAMLUserDetailsService;
 
 import java.security.Principal;
@@ -35,11 +36,14 @@ public class DefaultSAMLUserDetailsService implements SAMLUserDetailsService {
     if (authentication == null || !(authentication.getPrincipal() instanceof SAMLPrincipal)) {
       throw new IllegalArgumentException("Authentication.Principal is not SAMLPrincipal, but " + authentication);
     }
+
+    SAMLMessageContext context = ProxySAMLAuthenticationProvider.threadLocalSAMLMessageContext();
+
     SAMLPrincipal principal = (SAMLPrincipal) authentication.getPrincipal();
     List<SAMLAttribute> attributes = credential.getAttributes().stream().map(attribute ->
       new SAMLAttribute(
         attribute.getName(),
-        attribute.getAttributeValues().stream().map(SAMLBuilder::getStringValueFromXMLObject)
+        attribute.getAttributeValues().stream().map(attributeValue -> SAMLBuilder.getStringValueFromXMLObject(attributeValue, context))
           .filter(Optional::isPresent).map(Optional::get).collect(toList()))).collect(toList());
 
     NameID nameID = credential.getNameID();

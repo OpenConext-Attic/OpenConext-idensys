@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol" Destination="https://idensys.test.surfconext.nl/saml/SSO" ID="_e0d5e9f6f07efa6b8a42f33ec31ec42359625fe3" InResponseTo="a7j8c2aj9i649c317b6bg0a6dc16bf" IssueInstant="2016-07-08T17:22:44Z" Version="2.0">
+  <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">urn:etoegang:HM:00000003273226310000:entities:4019</saml:Issuer>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+      <ds:Reference URI="#_e0d5e9f6f07efa6b8a42f33ec31ec42359625fe3">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+          <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+            <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" PrefixList="xs" />
+          </ds:Transform>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>0XdUmhKMEGR27mo9Au4fHKFsQzERZTfopQtX1XYnjr4=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>DcNHTpZKyn2lznNmFHvwv7aKnZ97YCAuFT3fKa/4kkrKhUCiqLSGsO74SZsN
+      bBUc3DScCja5CxTv/xdCKu9GyBPJULFqvsg539jRBBxeaiz6u5aixHQEP8wp
+      V+u81yUukf2icIZ5Wxk9iqtvPsTEaBFC5gREDVJQ+XyUHGRtgdlU2FO0WjPk
+      DTZUTnI/S3Jke485iHd2arZ6+g2xhb08+LODhmqG2s63KOwTBArEClXy4Ijm
+      6eHrhqG3j/rtgVwPCBrB4NxeNVc1mVmT+FMkdiIM/sMlb8q6aqh1u1WLpWut
+      b7cl5nCa+dVZIbB6UIO5Ojx+9f1wNacLqYO6d/FV1Q==</ds:SignatureValue>
+    <ds:KeyInfo>
+      <ds:KeyName>d8f5600f7b4c66824c49ec3a3e32b89137cf2ce1</ds:KeyName>
+    </ds:KeyInfo>
+  </ds:Signature>
+  <samlp:Status>
+    <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
+  </samlp:Status>
+  <saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_0c7c7059fb0245eec9d726139fa34856d9b02184" IssueInstant="2016-07-08T17:22:44Z" Version="2.0">
+    <saml:Issuer>urn:etoegang:HM:00000003273226310000:entities:4019</saml:Issuer>
+    <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:SignedInfo>
+        <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+        <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+        <ds:Reference URI="#_0c7c7059fb0245eec9d726139fa34856d9b02184">
+          <ds:Transforms>
+            <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+            <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+              <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" PrefixList="xs" />
+            </ds:Transform>
+          </ds:Transforms>
+          <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+          <ds:DigestValue>mdjpK9kem5jv5TRqqUQv5AVYpXYSDFLCOHQs8HD6LX4=</ds:DigestValue>
+        </ds:Reference>
+      </ds:SignedInfo>
+      <ds:SignatureValue>ZO+Uo6FYf8n3YJKkIrY6sXjr2/RRAZgNkQy8znoG/V8cRhQ+nmZYpKEFiXgD
+        /WeTVTO6iu+rPqXoezVzJCsRrVFRd4LgJ3RZSU3L+9Urs3T7E8+qMeE/Sa23
+        YFWRCLQ/p0pVhNojL1LHv/sr9wbyKl3m5fI8T8aiuCHnOD+BasbTrpLIH2+q
+        TUrF/ta7rXQHtLmHdaXbsZgfwLu12+F4Gc3xGKCQ0XM9sd5ECO/dX+FlGGTw
+        rT/pqPOevVWXMorl5AuXNFZqKdnAtxhZFXWzMHt5l7tvRnvJ0givafGej3vC
+        h7siZOYd4J4S8Bqr76uzDyRgUxgTMefpLdxqWMKVBg==</ds:SignatureValue>
+      <ds:KeyInfo>
+        <ds:KeyName>d8f5600f7b4c66824c49ec3a3e32b89137cf2ce1</ds:KeyName>
+      </ds:KeyInfo>
+    </ds:Signature>
+    <saml:Subject>
+      <saml:EncryptedID>
+        <xenc:EncryptedData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_c54ca66d683e6cb4d40c7c5c8d7019c71c2186e4" Type="http://www.w3.org/2001/04/xmlenc#Element">
+          <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+          <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+            <ds:RetrievalMethod Type="http://www.w3.org/2001/04/xmlenc#EncryptedKey" URI="#_6f3f62959db7e25deb9175aa3744ed0f4fe2ebec" />
+          </ds:KeyInfo>
+          <xenc:CipherData>
+            <xenc:CipherValue>Tx+R3MLZt1JMhJxtk65TrSrQGuWNK0MsSlZz69isfZ8Px3snn6twNjbapEasonE+Ob2EEeltEDVL7ubrO7XG20BRF/0xliZLFnPYt4iewLJEQTs6CXDhqfpJUTbCBBvt4O+IimfVeu2dzrxIVtDjr4+JZdjsDEZig+pRyWPurpHLvXN3pBKZY7PenI4ucCArS+/DSYEklhn4J2+bbSLy2oPXlKyRMgFANR63H6SSytNY/tf7k1PgSdeq+RXTpoPOtX2lTyYRAcCzjOJJ6bqiNJp13UmPAKN9WmgYDClaCjc=</xenc:CipherValue>
+          </xenc:CipherData>
+        </xenc:EncryptedData>
+        <xenc:EncryptedKey xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_6f3f62959db7e25deb9175aa3744ed0f4fe2ebec" Recipient="urn:etoegang:DV:00000003300907770000:entities:0001">
+          <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+            <ds:DigestMethod xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+          </xenc:EncryptionMethod>
+          <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+            <ds:KeyName>64:A5:D8:C7:50:8E:BA:E7:3C:56:3F:80:A6:CB:04:25:15:82:E8:E6</ds:KeyName>
+          </ds:KeyInfo>
+          <xenc:CipherData>
+            <xenc:CipherValue>ej6Lh64G+fZ2ln5LU3VL3bN5MaUfSHb4HinP1IjB1meD7Blu3RyTjdboiEB/g+y/F7gZ2dvjR3oW2Os0YcONn2ayOrsEozt+6h/mnLG6jZl2dFNCOHaeDGkoHUWxVEDXmuPj1QCNWlbYQH0jP5jmkEXAlCQ1coAkicD/WBUNyogM5cPHQRo9Akm1K9wjrYEwo9CYRcT2bqyVmm7hfjyA65ckPFiuTdd82oWut7E5jtdw/wrdqSmH6/45juA9jgkU0v0oFcGJIXfNNryQU6eEsw4Kn1GTZosaP5UtBkYGd7ZPaF4tcrFygNa4r/KuYPeKiC5HdR6jY7lak7bY5B6OCA==</xenc:CipherValue>
+          </xenc:CipherData>
+          <xenc:ReferenceList>
+            <xenc:DataReference URI="#_c54ca66d683e6cb4d40c7c5c8d7019c71c2186e4" />
+          </xenc:ReferenceList>
+        </xenc:EncryptedKey>
+      </saml:EncryptedID>
+      <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+        <saml:SubjectConfirmationData InResponseTo="a7j8c2aj9i649c317b6bg0a6dc16bf" NotOnOrAfter="2016-07-08T17:24:44Z" Recipient="https://idensys.test.surfconext.nl/saml/SSO" />
+      </saml:SubjectConfirmation>
+    </saml:Subject>
+    <saml:Conditions NotBefore="2016-07-08T17:22:44Z" NotOnOrAfter="2016-07-08T17:24:44Z">
+      <saml:AudienceRestriction>
+        <saml:Audience>urn:etoegang:DV:00000003300907770000:entities:0001</saml:Audience>
+      </saml:AudienceRestriction>
+    </saml:Conditions>
+    <saml:Advice>
+      <saml:Assertion ID="_b1324740eb756d204809d677719f5088e1c199c3" IssueInstant="2016-07-08T17:22:40Z" Version="2.0">
+        <saml:Issuer>urn:etoegang:AD:00000003273226310000:entities:4019</saml:Issuer>
+        <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:SignedInfo>
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+            <ds:Reference URI="#_b1324740eb756d204809d677719f5088e1c199c3">
+              <ds:Transforms>
+                <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                  <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" PrefixList="xs" />
+                </ds:Transform>
+              </ds:Transforms>
+              <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+              <ds:DigestValue>RQLcWCQDRcyd0HK4joVqZo3600mO7F8jBtltkoQc1VE=</ds:DigestValue>
+            </ds:Reference>
+          </ds:SignedInfo>
+          <ds:SignatureValue>UNUJDwQxXigZZ2a2bl1mTyyGvViMUQQFNrYO2qV2zlIk9zVlhAZdWvxnTR52
+            JEvbUsD3cQI5D3+YYUsD1OPORbqzshl2X5VuDLns/7yDvLTXs1BhYIIvss80
+            bPm4F+uxbvGnvcUhIc2hy5GcztAYOFFbhJY3MwaMfHlbPd/KgrfMtrWSBX0n
+            kyEmM+IIZv61KA4kMhoX+tquKMtNUzsI/h/s/Cmtv3aVaz8d30yA6eBUEkvi
+            ZtWUyQNJmRXjUreqF3Y35CIEfJf22Jgn3G0MwjHd0npxS6PX+z2RGT4zXZYD
+            MSSzO42ox8dAZQhmFHPMmNkAKJoGMOgnJ4QVsROxUQ==</ds:SignatureValue>
+          <ds:KeyInfo>
+            <ds:KeyName>d8f5600f7b4c66824c49ec3a3e32b89137cf2ce1</ds:KeyName>
+          </ds:KeyInfo>
+        </ds:Signature>
+        <saml:Subject>
+          <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">6d5231ff-b2ab-4482-8254-e8c617deb394</saml:NameID>
+          <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            <saml:SubjectConfirmationData InResponseTo="_965ea559512bc63cdd55164627d7011f823634de" NotOnOrAfter="2016-07-08T17:24:40Z" Recipient="https://eid.digidentity-preproduction.eu/hm/eh19/ad_hm" />
+          </saml:SubjectConfirmation>
+        </saml:Subject>
+        <saml:Conditions NotBefore="2016-07-08T17:20:40Z" NotOnOrAfter="2016-07-08T17:24:40Z">
+          <saml:AudienceRestriction>
+            <saml:Audience>urn:etoegang:HM:00000003273226310000:entities:4019</saml:Audience>
+            <saml:Audience>urn:etoegang:KR:99999999000000000010:entities:9019</saml:Audience>
+            <saml:Audience>urn:etoegang:DV:00000003300907770000:entities:0001</saml:Audience>
+          </saml:AudienceRestriction>
+        </saml:Conditions>
+        <saml:AuthnStatement AuthnInstant="2016-07-08T17:22:40Z">
+          <saml:AuthnContext>
+            <saml:AuthnContextClassRef>urn:etoegang:core:assurance-class:loa3</saml:AuthnContextClassRef>
+            <saml:AuthenticatingAuthority>00000003273226310000</saml:AuthenticatingAuthority>
+          </saml:AuthnContext>
+        </saml:AuthnStatement>
+        <saml:AttributeStatement>
+          <saml:Attribute Name="urn:etoegang:core:Representation">
+            <saml:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:boolean">false</saml:AttributeValue>
+          </saml:Attribute>
+          <saml:Attribute Name="urn:etoegang:core:ServiceUUID">
+            <saml:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">38073473-d2df-4d17-9c7b-ed677a876ae7</saml:AttributeValue>
+          </saml:Attribute>
+          <saml:Attribute Name="urn:etoegang:core:ActingSubjectID">
+            <saml:AttributeValue>
+              <saml:EncryptedID>
+                <xenc:EncryptedData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_d2d8299e1b" Type="http://www.w3.org/2001/04/xmlenc#Element">
+                  <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+                  <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                    <ds:RetrievalMethod Type="http://www.w3.org/2001/04/xmlenc#EncryptedKey" URI="#_c0cf2fd5-20d9-4f80-9a6b-866b94c81fee" />
+                  </ds:KeyInfo>
+                  <xenc:CipherData>
+                    <xenc:CipherValue>/D9bzDtpzveDyUpHa4rx5NH32D1yuY7JEAvK8ez1wEPMftniQktYWl3L0DrM
+                      QOqpX8CBWYDiNkTgSssf9aJOlkN1G34uRcMoXlxJjx6r7YIpICMFGDm1qDQk
+                      YOamO/A3PdSbjuFaSKoDz0UhFf7ypk8C4dpiil8/dlCF6fyrRJjIzmgvqEYb
+                      3y1FAe/RkXnBTobncuAdIXXOGtl3f+YWaIRDVutndAisSw7jcndjKTsc0UEI
+                      QJvxqCrUFDYJebjIqpv5ZVFxRVZ3EtcdnUYNEgdDwPFriQfOMOi7yDTQNM+O
+                      12wNqu7Od0e0Ke+zv7FT4pPw74zDWahXIWwuv9SOLkhubi/2Orlek6XJcoby
+                      JleU3iQlOalRqX0USJuXziiM</xenc:CipherValue>
+                  </xenc:CipherData>
+                </xenc:EncryptedData>
+                <xenc:EncryptedKey xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_c0cf2fd5-20d9-4f80-9a6b-866b94c81fee" Recipient="urn:etoegang:KR:99999999000000000010:entities:9019">
+                  <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+                    <ds:DigestMethod xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  </xenc:EncryptionMethod>
+                  <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                    <ds:KeyName>a810a050-d8bf-4d9d-81c0-459aa83082a8</ds:KeyName>
+                  </ds:KeyInfo>
+                  <xenc:CipherData>
+                    <xenc:CipherValue>IvrsrFMGFHU1VjrdXpGTA+0uK/YKPBvbqawUboV84hHOugmpvMNTVze6FHQ7
+                      rRrRUOsi6rbJOqbYpKrO1gYcfuF4Ztn1C2DenmucHDeNHeN4tDsFNzhqWJJZ
+                      PNjq0qzTJESHcRx0GnOSLfBtDaciRoaaZdH9zEeU/tumfdvWcFtwiCwZBPBz
+                      P8mhMdp5GRoBtGVAWFNr9hlpVP9E9jchig7CZlXgk++2IKNUx+59850waBoB
+                      qV16CRnxtq8X/av0UtUOLjTiVeobwJ+9OpkC/+aixgB82Bht2IEMYACD5fuH
+                      vqzf4bxgMEwG3D3ELJNmdTU/nhEYmHIl3A1o328KNQ==</xenc:CipherValue>
+                  </xenc:CipherData>
+                  <xenc:ReferenceList>
+                    <xenc:DataReference URI="#_d2d8299e1b" />
+                  </xenc:ReferenceList>
+                </xenc:EncryptedKey>
+              </saml:EncryptedID>
+            </saml:AttributeValue>
+          </saml:Attribute>
+        </saml:AttributeStatement>
+      </saml:Assertion>
+      <saml2:Assertion ID="_6CF211B219DA15D44B8C608411BB7296" IssueInstant="2016-07-08T17:22:43.695Z" Version="2.0">
+        <saml2:Issuer>urn:etoegang:KR:99999999000000000010:entities:9019</saml2:Issuer>
+        <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:SignedInfo>
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+            <ds:Reference URI="#_6CF211B219DA15D44B8C608411BB7296">
+              <ds:Transforms>
+                <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+              </ds:Transforms>
+              <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+              <ds:DigestValue>B/Ddnr2EQk0cCw4PHqMuO/hFraM30MnNCIeoU4EIgMo=</ds:DigestValue>
+            </ds:Reference>
+          </ds:SignedInfo>
+          <ds:SignatureValue>iuELiq3VjF9s+61PzXMYPU4mlHgwQd7i5smivhbGecMY9bQr3sSNffDiT2okC6+yVTvwAdUxMvaY4prqrBVuC5RXkkXcyNgH+rN61mUI8a7HNx53SC7h3stZbGq8H0CX3SPGTI5Waysn6alrWmjkLlHh2RIKmWVwJm7w/4Dnca483zMPj+B/gGh6sJUZ7NXc8K8IgIdYaG4/5bkf4SvDj/vqdagOrgCi97NpsGdvvgPVKtKxCQ3qFMaiDlKlUfJRScuiNJMXefNqh9RJBjpJFqTX+xv0IJtz4YSrYiZHJzeBg/xpH1lOTDOv6pvAc5BOEobVpr07EZ7y1V9Sc+K1rQ==</ds:SignatureValue>
+          <ds:KeyInfo>
+            <ds:KeyName>a810a050-d8bf-4d9d-81c0-459aa83082a8</ds:KeyName>
+          </ds:KeyInfo>
+        </ds:Signature>
+        <saml2:Subject>
+          <saml2:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">_E423C7A519AF8A9BB96C7B3C0B918619</saml2:NameID>
+          <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            <saml2:SubjectConfirmationData InResponseTo="_1b9dea09529ed0c06673d678c8d60f13789920bd" NotOnOrAfter="2016-07-08T17:27:43.695Z" Recipient="urn:etoegang:HM:00000003273226310000:entities:4019" />
+          </saml2:SubjectConfirmation>
+        </saml2:Subject>
+        <saml2:Conditions NotBefore="2016-07-08T17:22:43.702Z" NotOnOrAfter="2016-07-08T17:24:43.702Z">
+          <saml2:AudienceRestriction>
+            <saml2:Audience>urn:etoegang:DV:00000003300907770000:entities:0001</saml2:Audience>
+          </saml2:AudienceRestriction>
+        </saml2:Conditions>
+        <saml2:Advice>
+          <saml2:AssertionIDRef>_b1324740eb756d204809d677719f5088e1c199c3</saml2:AssertionIDRef>
+        </saml2:Advice>
+        <saml2:AttributeStatement>
+          <saml2:Attribute Name="urn:etoegang:core:DeclarationType">
+            <saml2:AttributeValue>DeclarationOfSectoralIdentity</saml2:AttributeValue>
+          </saml2:Attribute>
+          <saml2:Attribute Name="urn:etoegang:core:SchemeVersion">
+            <saml2:AttributeValue>1.9</saml2:AttributeValue>
+          </saml2:Attribute>
+          <saml2:Attribute Name="urn:etoegang:core:LinkedDeclarationSignatureValue">
+            <saml2:AttributeValue>UNUJDwQxXigZZ2a2bl1mTyyGvViMUQQFNrYO2qV2zlIk9zVlhAZdWvxnTR52
+              JEvbUsD3cQI5D3+YYUsD1OPORbqzshl2X5VuDLns/7yDvLTXs1BhYIIvss80
+              bPm4F+uxbvGnvcUhIc2hy5GcztAYOFFbhJY3MwaMfHlbPd/KgrfMtrWSBX0n
+              kyEmM+IIZv61KA4kMhoX+tquKMtNUzsI/h/s/Cmtv3aVaz8d30yA6eBUEkvi
+              ZtWUyQNJmRXjUreqF3Y35CIEfJf22Jgn3G0MwjHd0npxS6PX+z2RGT4zXZYD
+              MSSzO42ox8dAZQhmFHPMmNkAKJoGMOgnJ4QVsROxUQ==</saml2:AttributeValue>
+          </saml2:Attribute>
+        </saml2:AttributeStatement>
+        <saml2:AttributeStatement>
+          <saml2:Attribute Name="urn:etoegang:core:SectorID">
+            <saml2:AttributeValue>
+              <saml2:EncryptedID>
+                <xenc:EncryptedData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_1ab74aaa6a61b2ab35f7a4fc02614422" Type="http://www.w3.org/2001/04/xmlenc#Element">
+                  <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+                  <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                    <ds:RetrievalMethod Type="http://www.w3.org/2001/04/xmlenc#EncryptedKey" URI="#_22ac80679d9ff44dadcc8af54af4f2f7" />
+                  </ds:KeyInfo>
+                  <xenc:CipherData>
+                    <xenc:CipherValue>Tx+R3MLZt1JMhJxtk65TrSrQGuWNK0MsSlZz69isfZ8Px3snn6twNjbapEasonE+Ob2EEeltEDVL7ubrO7XG20BRF/0xliZLFnPYt4iewLJEQTs6CXDhqfpJUTbCBBvt4O+IimfVeu2dzrxIVtDjr4+JZdjsDEZig+pRyWPurpHLvXN3pBKZY7PenI4ucCArS+/DSYEklhn4J2+bbSLy2oPXlKyRMgFANR63H6SSytNY/tf7k1PgSdeq+RXTpoPOtX2lTyYRAcCzjOJJ6bqiNJp13UmPAKN9WmgYDClaCjc=</xenc:CipherValue>
+                  </xenc:CipherData>
+                </xenc:EncryptedData>
+                <xenc:EncryptedKey xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" Id="_22ac80679d9ff44dadcc8af54af4f2f7" Recipient="urn:etoegang:DV:00000003300907770000:entities:0001">
+                  <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+                    <ds:DigestMethod xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  </xenc:EncryptionMethod>
+                  <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                    <ds:KeyName>64:A5:D8:C7:50:8E:BA:E7:3C:56:3F:80:A6:CB:04:25:15:82:E8:E6</ds:KeyName>
+                  </ds:KeyInfo>
+                  <xenc:CipherData>
+                    <xenc:CipherValue>ej6Lh64G+fZ2ln5LU3VL3bN5MaUfSHb4HinP1IjB1meD7Blu3RyTjdboiEB/g+y/F7gZ2dvjR3oW2Os0YcONn2ayOrsEozt+6h/mnLG6jZl2dFNCOHaeDGkoHUWxVEDXmuPj1QCNWlbYQH0jP5jmkEXAlCQ1coAkicD/WBUNyogM5cPHQRo9Akm1K9wjrYEwo9CYRcT2bqyVmm7hfjyA65ckPFiuTdd82oWut7E5jtdw/wrdqSmH6/45juA9jgkU0v0oFcGJIXfNNryQU6eEsw4Kn1GTZosaP5UtBkYGd7ZPaF4tcrFygNa4r/KuYPeKiC5HdR6jY7lak7bY5B6OCA==</xenc:CipherValue>
+                  </xenc:CipherData>
+                  <xenc:ReferenceList>
+                    <xenc:DataReference URI="#_1ab74aaa6a61b2ab35f7a4fc02614422" />
+                  </xenc:ReferenceList>
+                </xenc:EncryptedKey>
+              </saml2:EncryptedID>
+            </saml2:AttributeValue>
+          </saml2:Attribute>
+        </saml2:AttributeStatement>
+      </saml2:Assertion>
+    </saml:Advice>
+    <saml:AuthnStatement AuthnInstant="2016-07-08T17:22:44Z">
+      <saml:AuthnContext>
+        <saml:AuthnContextClassRef>urn:etoegang:core:assurance-class:loa3</saml:AuthnContextClassRef>
+        <saml:AuthenticatingAuthority>urn:etoegang:AD:00000003273226310000:entities:4019</saml:AuthenticatingAuthority>
+      </saml:AuthnContext>
+    </saml:AuthnStatement>
+    <saml:AttributeStatement>
+      <saml:Attribute Name="urn:etoegang:core:ServiceUUID">
+        <saml:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">38073473-d2df-4d17-9c7b-ed677a876ae7</saml:AttributeValue>
+      </saml:Attribute>
+    </saml:AttributeStatement>
+  </saml:Assertion>
+</samlp:Response>
