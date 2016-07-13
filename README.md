@@ -89,6 +89,8 @@ The production SAML flow with a Idensys is depicted in [this image](src/main/res
 
 ## [Private signing key and public certificate](#signing-keys)
 
+(Note: When using Ansible with the create_new_environment.sh script you can skip these steps)
+
 The SAML Spring Security library needs a private DSA key / public certificate pair for the Idensys IdP / SP which can be generated.
 
 ```bash
@@ -131,14 +133,24 @@ The Idensys application has documented [properties](src/main/resources/applicati
 to a non-local environment ensure you have application.yml properties outside of the packaged jar to override
 the Idensys configuration.
 
-For full deployment with ansible:
+### Ansible
 
-```bash
-cd ansible
-ansible-playbook -i "test" -u centos -K idensys.yml
-```
+A complete VM can be deployed with ansible. This project uses the Ansible "environment" setup as described in
+https://github.com/pmeulen/ansible-tools. Secrets are encrypted using keyczar (see [environment.conf](ansible/environments/template/environment.conf))
 
-To only update the Spring Boot jar append `--tags "idensys"`
+To prepare for a deploy you must first create a new "environment" and customise it:
+
+1. Install the dependencies for using ansible-tools
+
+2. Create a new environment:  
+  `cd ansible`  
+  `./scripts/create_new_environment.sh <environment dir>`  
+  
+3. Update the inventory and groups_vars in the generated environment to match your setup
+
+4. Deploy using ansible:  
+   `ansible-playbook idensys.yml -i <environment dir>/inventory`  
+   To only update the Spring Boot jar append `--tags "idensys"`
 
 ## [Releases](#releases)
 
@@ -148,5 +160,5 @@ Releases are uploaded to the build server where Ansible picks them up. To upload
 mvn deploy
 ```
 
-You will need the configure the username and password for the repositories `openconext-releases` and `openconext-releases` in your
+You will need the configure the username and password for the repositories `openconext-releases` and `openconext-snapshots` in your
 ~/.m2/settings.xml. Use [settings.example.xml](src/test/resources/templates/settings.example.xml) as a template.
