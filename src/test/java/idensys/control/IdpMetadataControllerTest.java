@@ -11,7 +11,8 @@ import java.time.temporal.TemporalAccessor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @WebIntegrationTest(value = {"server.port=0", "proxy.validity_duration_metadata_ms=1"})
 public class IdpMetadataControllerTest extends AbstractIntegrationTest {

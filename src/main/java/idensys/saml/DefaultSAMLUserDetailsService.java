@@ -13,6 +13,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import static idensys.saml.SAMLBuilder.getStringValueFromXMLObject;
 import static java.util.stream.Collectors.toList;
 
 public class DefaultSAMLUserDetailsService implements SAMLUserDetailsService {
@@ -43,7 +44,7 @@ public class DefaultSAMLUserDetailsService implements SAMLUserDetailsService {
     List<SAMLAttribute> attributes = credential.getAttributes().stream().map(attribute ->
       new SAMLAttribute(
         attribute.getName(),
-        attribute.getAttributeValues().stream().map(attributeValue -> SAMLBuilder.getStringValueFromXMLObject(attributeValue, context))
+        attribute.getAttributeValues().stream().map(attributeValue -> getStringValueFromXMLObject(attributeValue, context))
           .filter(Optional::isPresent).map(Optional::get).collect(toList()))).collect(toList());
 
     NameID nameID = credential.getNameID();

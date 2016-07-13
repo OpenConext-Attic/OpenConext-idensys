@@ -10,7 +10,6 @@ import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.saml.key.KeyManager;
-import org.springframework.security.saml.metadata.CachingMetadataManager;
 import org.springframework.security.saml.metadata.MetadataManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;

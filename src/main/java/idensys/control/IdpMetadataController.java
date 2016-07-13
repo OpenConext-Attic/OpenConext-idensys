@@ -1,10 +1,8 @@
 package idensys.control;
 
 import org.joda.time.DateTime;
-import org.opensaml.Configuration;
 import org.opensaml.common.xml.SAMLConstants;
 import org.opensaml.saml2.metadata.*;
-import org.opensaml.xml.io.Marshaller;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.security.CriteriaSet;
 import org.opensaml.xml.security.SecurityException;
@@ -13,24 +11,22 @@ import org.opensaml.xml.security.credential.UsageType;
 import org.opensaml.xml.security.criteria.EntityIDCriteria;
 import org.opensaml.xml.security.keyinfo.KeyInfoGenerator;
 import org.opensaml.xml.security.x509.X509KeyInfoGeneratorFactory;
-import org.opensaml.xml.signature.*;
-import org.opensaml.xml.util.XMLHelper;
+import org.opensaml.xml.signature.KeyInfo;
+import org.opensaml.xml.signature.KeyName;
+import org.opensaml.xml.signature.SignatureConstants;
+import org.opensaml.xml.signature.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.saml.key.KeyManager;
 import org.springframework.security.saml.metadata.CachingMetadataManager;
 import org.springframework.security.saml.metadata.ExtendedMetadata;
-import org.springframework.security.saml.metadata.MetadataGenerator;
 import org.springframework.security.saml.util.SAMLUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.util.UUID;
 
 import static idensys.saml.SAMLBuilder.buildSAMLObject;
 

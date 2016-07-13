@@ -7,7 +7,8 @@ import org.opensaml.ws.message.encoder.MessageEncodingException;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.signature.SignatureException;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

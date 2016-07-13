@@ -1,7 +1,5 @@
 package idensys.saml;
 
-import org.opensaml.xml.security.CriteriaSet;
-import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.security.x509.BasicX509Credential;
 import org.springframework.security.saml.key.JKSKeyManager;

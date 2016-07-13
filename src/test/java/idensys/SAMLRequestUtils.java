@@ -1,68 +1,50 @@
 package idensys;
 
-import org.joda.time.DateTime;
-import org.opensaml.Configuration;
-import org.opensaml.common.binding.BasicSAMLMessageContext;
-import org.opensaml.common.binding.SAMLMessageContext;
-import org.opensaml.common.binding.artifact.BasicSAMLArtifactMap;
-import org.opensaml.common.xml.SAMLConstants;
-import org.opensaml.saml2.binding.artifact.AbstractSAML2Artifact;
-import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilder;
-import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
-import org.opensaml.saml2.binding.decoding.HTTPArtifactDecoderImpl;
-import org.opensaml.saml2.binding.encoding.HTTPArtifactEncoder;
-import org.opensaml.saml2.binding.encoding.HTTPRedirectDeflateEncoder;
-import org.opensaml.saml2.core.*;
-import org.opensaml.saml2.metadata.Endpoint;
-import org.opensaml.saml2.metadata.RoleDescriptor;
-import org.opensaml.saml2.metadata.SingleSignOnService;
-import org.opensaml.saml2.metadata.provider.MetadataProviderException;
-import org.opensaml.util.storage.MapBasedStorageService;
-import org.opensaml.ws.message.encoder.MessageEncodingException;
-import org.opensaml.ws.soap.soap11.Body;
-import org.opensaml.ws.soap.soap11.Envelope;
-import org.opensaml.ws.transport.http.HttpServletResponseAdapter;
-import org.opensaml.xml.XMLObject;
-import org.opensaml.xml.io.Marshaller;
-import org.opensaml.xml.io.MarshallingException;
-import org.opensaml.xml.security.CriteriaSet;
-import org.opensaml.xml.security.SecurityException;
-import org.opensaml.xml.security.credential.Credential;
-import org.opensaml.xml.security.criteria.EntityIDCriteria;
-import org.opensaml.xml.signature.SignatureException;
-import org.opensaml.xml.util.XMLHelper;
-import org.springframework.core.io.Resource;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.saml.key.KeyManager;
-
-import java.net.UnknownHostException;
-import java.util.Optional;
-import java.util.UUID;
-
-import static idensys.saml.SAMLBuilder.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.*;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.cert.X509Certificate;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.xml.security.Init;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.apache.xml.security.signature.XMLSignature;
 import org.apache.xml.security.transforms.Transforms;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.ElementProxy;
-import org.springframework.security.saml.metadata.CachingMetadataManager;
+import org.joda.time.DateTime;
+import org.opensaml.Configuration;
+import org.opensaml.common.binding.BasicSAMLMessageContext;
+import org.opensaml.common.binding.SAMLMessageContext;
+import org.opensaml.common.xml.SAMLConstants;
+import org.opensaml.saml2.binding.artifact.AbstractSAML2Artifact;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilder;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
+import org.opensaml.saml2.binding.encoding.HTTPRedirectDeflateEncoder;
+import org.opensaml.saml2.core.AuthnRequest;
+import org.opensaml.saml2.metadata.Endpoint;
+import org.opensaml.saml2.metadata.RoleDescriptor;
+import org.opensaml.saml2.metadata.SingleSignOnService;
+import org.opensaml.saml2.metadata.provider.MetadataProviderException;
+import org.opensaml.ws.message.encoder.MessageEncodingException;
+import org.opensaml.ws.transport.http.HttpServletResponseAdapter;
+import org.opensaml.xml.io.MarshallingException;
+import org.opensaml.xml.security.CriteriaSet;
+import org.opensaml.xml.security.SecurityException;
+import org.opensaml.xml.security.credential.Credential;
+import org.opensaml.xml.security.criteria.EntityIDCriteria;
+import org.opensaml.xml.signature.SignatureException;
+import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.saml.key.KeyManager;
 import org.springframework.security.saml.metadata.MetadataManager;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayOutputStream;
+import java.net.UnknownHostException;
+import java.security.Key;
+import java.security.cert.X509Certificate;
+import java.util.Optional;
+
+import static idensys.saml.SAMLBuilder.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class SAMLRequestUtils {
 
@@ -79,7 +61,7 @@ public class SAMLRequestUtils {
   public String redirectUrl(String entityId, String destination, String acs, Optional<String> userId, boolean includeSignature)
       throws SecurityException, MessageEncodingException, SignatureException, MarshallingException, UnknownHostException {
     AuthnRequest authnRequest = buildSAMLObject(AuthnRequest.class, AuthnRequest.DEFAULT_ELEMENT_NAME);
-    authnRequest.setID(UUID.randomUUID().toString());
+    authnRequest.setID(nCName());
     authnRequest.setIssueInstant(new DateTime());
     authnRequest.setDestination(destination);
     authnRequest.setAssertionConsumerServiceURL(acs);

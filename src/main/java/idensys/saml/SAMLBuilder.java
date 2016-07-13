@@ -5,37 +5,27 @@ import org.opensaml.Configuration;
 import org.opensaml.common.SAMLObject;
 import org.opensaml.saml2.core.*;
 import org.opensaml.saml2.encryption.Decrypter;
-import org.opensaml.saml2.metadata.EntityDescriptor;
-import org.opensaml.ws.soap.soap11.Body;
-import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.XMLObjectBuilderFactory;
 import org.opensaml.xml.encryption.DecryptionException;
-import org.opensaml.xml.io.Marshaller;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.schema.XSAny;
 import org.opensaml.xml.schema.XSString;
 import org.opensaml.xml.schema.impl.XSStringBuilder;
-import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.signature.*;
-import org.opensaml.xml.util.XMLHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.saml.context.SAMLMessageContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.w3c.dom.Element;
 
 import javax.xml.namespace.QName;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 public class SAMLBuilder {
 
@@ -128,10 +118,14 @@ public class SAMLBuilder {
 
     assertion.getAttributeStatements().add(buildAttributeStatement(principal.getAttributes()));
 
-    assertion.setID(UUID.randomUUID().toString());
+    assertion.setID(nCName());
     assertion.setIssueInstant(new DateTime());
 
     return assertion;
+  }
+
+  public static String nCName() {
+    return "_" + UUID.randomUUID().toString();
   }
 
   public static void signAssertion(SignableXMLObject signableXMLObject, Credential signingCredential) throws MarshallingException, SignatureException {

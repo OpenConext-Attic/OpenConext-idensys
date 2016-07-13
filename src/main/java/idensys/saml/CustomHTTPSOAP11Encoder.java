@@ -4,7 +4,6 @@ import org.opensaml.Configuration;
 import org.opensaml.common.SAMLObject;
 import org.opensaml.common.SignableSAMLObject;
 import org.opensaml.common.binding.SAMLMessageContext;
-import org.opensaml.saml2.core.ArtifactResolve;
 import org.opensaml.ws.message.encoder.MessageEncodingException;
 import org.opensaml.xml.XMLObjectBuilder;
 import org.opensaml.xml.io.Marshaller;
@@ -16,8 +15,7 @@ import org.opensaml.xml.signature.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
-import java.util.List;
+import static idensys.saml.SAMLBuilder.buildSAMLObject;
 
 public class CustomHTTPSOAP11Encoder extends org.opensaml.saml2.binding.encoding.HTTPSOAP11Encoder {
 
@@ -49,8 +47,8 @@ public class CustomHTTPSOAP11Encoder extends org.opensaml.saml2.binding.encoding
       Signature signature = signatureBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
 
       signature.setSigningCredential(signingCredential);
-      KeyInfo keyInfo = SAMLBuilder.buildSAMLObject(KeyInfo.class, KeyInfo.DEFAULT_ELEMENT_NAME);
-      KeyName keyName = SAMLBuilder.buildSAMLObject(KeyName.class, KeyName.DEFAULT_ELEMENT_NAME);
+      KeyInfo keyInfo = buildSAMLObject(KeyInfo.class, KeyInfo.DEFAULT_ELEMENT_NAME);
+      KeyName keyName = buildSAMLObject(KeyName.class, KeyName.DEFAULT_ELEMENT_NAME);
       keyName.setValue(credentialKeyName);
       keyInfo.getKeyNames().add(keyName);
       signature.setKeyInfo(keyInfo);

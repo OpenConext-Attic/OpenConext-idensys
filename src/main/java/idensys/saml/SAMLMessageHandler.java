@@ -22,17 +22,17 @@ import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.SigningUtil;
 import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.security.criteria.EntityIDCriteria;
-import org.opensaml.xml.signature.*;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureException;
+import org.opensaml.xml.signature.SignatureValidator;
 import org.opensaml.xml.util.Base64;
 import org.opensaml.xml.validation.ValidationException;
 import org.opensaml.xml.validation.ValidatorSuite;
-import org.springframework.security.saml.context.SAMLContextProvider;
 import org.springframework.security.saml.key.KeyManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.UUID;
 
 import static idensys.saml.SAMLBuilder.*;
 import static java.util.Arrays.asList;
@@ -107,7 +107,7 @@ public class SAMLMessageHandler {
     Issuer issuer = buildIssuer(entityId);
 
     authResponse.setIssuer(issuer);
-    authResponse.setID(UUID.randomUUID().toString());
+    authResponse.setID(nCName());
     authResponse.setIssueInstant(new DateTime());
     authResponse.setInResponseTo(principal.getRequestID());
 

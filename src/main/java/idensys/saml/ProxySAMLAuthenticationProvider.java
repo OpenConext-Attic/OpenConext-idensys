@@ -1,8 +1,5 @@
 package idensys.saml;
 
-import org.opensaml.common.SAMLObject;
-import org.opensaml.saml2.core.ArtifactResolve;
-import org.opensaml.saml2.core.Attribute;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +10,6 @@ import org.springframework.security.saml.SAMLCredential;
 import org.springframework.security.saml.context.SAMLMessageContext;
 
 import java.util.Collection;
-import java.util.List;
 
 public class ProxySAMLAuthenticationProvider extends SAMLAuthenticationProvider {
 

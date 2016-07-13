@@ -2,7 +2,6 @@ package idensys.saml;
 
 import org.apache.commons.io.IOUtils;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.KeyFactory;

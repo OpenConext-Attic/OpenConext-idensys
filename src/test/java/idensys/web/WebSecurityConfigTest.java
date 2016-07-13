@@ -1,14 +1,6 @@
 package idensys.web;
 
 
-import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
-import com.github.tomakehurst.wiremock.common.FileSource;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.extension.Parameters;
-import com.github.tomakehurst.wiremock.extension.ResponseTransformer;
-import com.github.tomakehurst.wiremock.http.Request;
-import com.github.tomakehurst.wiremock.http.Response;
-import com.github.tomakehurst.wiremock.http.ResponseDefinition;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
@@ -22,7 +14,10 @@ import org.opensaml.xml.signature.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.unbescape.html.HtmlEscape;
 
 import java.io.IOException;
@@ -35,10 +30,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @WebIntegrationTest(value = {

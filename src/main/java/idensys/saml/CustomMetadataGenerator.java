@@ -1,14 +1,8 @@
 package idensys.saml;
 
-import org.opensaml.saml2.metadata.*;
+import org.opensaml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml2.metadata.provider.MetadataProviderException;
-import org.opensaml.xml.XMLObject;
-import org.springframework.core.io.Resource;
 import org.springframework.security.saml.metadata.MetadataGenerator;
-
-import java.util.Collection;
-
-import static idensys.saml.SAMLBuilder.buildSAMLObject;
 
 public class CustomMetadataGenerator extends MetadataGenerator {
 
