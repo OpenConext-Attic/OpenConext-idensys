@@ -58,13 +58,13 @@ public class IdentityProviderAuthnFilter extends OncePerRequestFilter implements
     AuthnRequest authnRequest = (AuthnRequest) messageContext.getInboundSAMLMessage();
 
     if (authenticationNotRequired(authnRequest.getIssuer())) {
-        sendAuthResponse(response);
-        return;
-      }
+      sendAuthResponse(response);
+      return;
+    }
 
     SAMLPrincipal principal = new SAMLPrincipal(authnRequest.getIssuer().getValue(), authnRequest.getID(),
       authnRequest.getAssertionConsumerServiceURL(), messageContext.getRelayState());
-    
+
     validateAssertionConsumerService(principal);
 
     SecurityContextHolder.getContext().setAuthentication(new SAMLAuthentication(principal));
@@ -108,10 +108,10 @@ public class IdentityProviderAuthnFilter extends OncePerRequestFilter implements
   private boolean authenticationNotRequired(Issuer authRequestIssuer) {
     Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
     if (existingAuth != null && existingAuth.getPrincipal() instanceof SAMLPrincipal && existingAuth.isAuthenticated()) {
-        SAMLPrincipal existingSAMLAuth = (SAMLPrincipal) existingAuth.getPrincipal();
+      SAMLPrincipal existingSAMLAuth = (SAMLPrincipal) existingAuth.getPrincipal();
         
-        // Skip authentication only if the existing principal is for the requesting service provider
-        return existingSAMLAuth.getServiceProviderEntityID().equals(authRequestIssuer.getValue());
+      // Skip authentication only if the existing principal is for the requesting service provider
+      return existingSAMLAuth.getServiceProviderEntityID().equals(authRequestIssuer.getValue());
     }
     return false;
   }
